@@ -3,19 +3,147 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' https://api.fontshare.com; font-src https://cdn.fontshare.com; img-src 'self'; base-uri 'none'; form-action 'none'">
-<title>Contact · AdverCal</title>
-<meta http-equiv="refresh" content="0; url=./#brief">
-<link rel="canonical" href="https://advercal.com/#brief">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://api.fontshare.com; font-src https://cdn.fontshare.com; img-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Contact, AdverCal</title>
+<meta name="description" content="Write to AdverCal at advercalcompany@gmail.com. Pick a few choices and the email writes itself.">
+<link rel="canonical" href="https://advercal.com/contact.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://advercal.com/contact.html">
+<meta property="og:title" content="Contact, AdverCal">
+<meta property="og:description" content="Write to AdverCal at advercalcompany@gmail.com. Pick a few choices and the email writes itself.">
+<meta property="og:image" content="https://advercal.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AdverCal, websites for restaurants, bars, clinics and local shops">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#e4e8e2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181d1a" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,700&amp;display=swap">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&amp;f[]=zodiak@400&amp;display=swap">
 <link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
-<main class="simple">
-  <a class="wordmark" href="./">AdverCal</a>
-  <h1>Contact has moved</h1>
-  <p>Everything is on <a class="link" href="./#brief">our home page</a> now.</p>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="index.html" aria-label="AdverCal home"><svg viewBox="0 0 22 22" aria-hidden="true"><rect x="5" y="1.75" width="12" height="18.5" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect class="dot" x="8" y="12.5" width="6" height="3" rx="1.2"/></svg>AdverCal</a>
+    <a class="btn small" href="contact.html" aria-current="page">Write to us</a>
+    <nav class="nav" aria-label="Main">
+      <a href="services.html">Sites we build</a>
+      <a href="care.html">Monthly care</a>
+      <a href="how.html">How we work</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="compose-band">
+    <div class="wrap compose">
+      <div class="compose-left">
+        <div class="compose-intro">
+          <h1>Tell us about your business</h1>
+          <p class="lede"><span class="js-only">Pick what fits and the email writes itself. </span>The email opens in your own email app, ready to send. We answer with questions or a written quote.</p>
+        </div>
+      <form id="brief-form" aria-label="Choices for your email">
+        <fieldset>
+          <legend>Your business</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="kind" value="restaurant"><span>Restaurant</span></label>
+            <label class="choice"><input type="radio" name="kind" value="cafe"><span>Cafe</span></label>
+            <label class="choice"><input type="radio" name="kind" value="bar"><span>Bar</span></label>
+            <label class="choice"><input type="radio" name="kind" value="club"><span>Club</span></label>
+            <label class="choice"><input type="radio" name="kind" value="clinic"><span>Clinic</span></label>
+            <label class="choice"><input type="radio" name="kind" value="salon"><span>Salon</span></label>
+            <label class="choice"><input type="radio" name="kind" value="shop"><span>Shop</span></label>
+            <label class="choice"><input type="radio" name="kind" value="trade"><span>Trade</span></label>
+            <label class="choice"><input type="radio" name="kind" value="office"><span>Office</span></label>
+            <label class="choice"><input type="radio" name="kind" value="other"><span>Other</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>What you need</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="need" value="new"><span>A new site</span></label>
+            <label class="choice"><input type="radio" name="need" value="redo"><span>Redo our site</span></label>
+            <label class="choice"><input type="radio" name="need" value="changes"><span>Changes to our site</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Also</legend>
+          <div class="choices">
+            <label class="choice"><input type="checkbox" name="care" value="yes"><span>Monthly care</span></label>
+            <label class="choice"><input type="checkbox" name="call" value="yes"><span>A short call first</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>When</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="when" value="soon"><span>As soon as we can</span></label>
+            <label class="choice"><input type="radio" name="when" value="month"><span>In a month or two</span></label>
+            <label class="choice"><input type="radio" name="when" value="later"><span>No rush</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>A few details</legend>
+          <div class="fields">
+            <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name"></div>
+            <div class="field"><label for="f-org">Business name</label><input id="f-org" name="org" autocomplete="organization"></div>
+            <div class="field"><label for="f-book">Booking or ordering you use</label>
+              <select id="f-book" name="book">
+                <option value="">None yet</option>
+                <option>OpenTable</option><option>Resy</option><option>Tock</option><option>Toast</option>
+                <option>Square</option><option>DoorDash</option><option>Calendly</option>
+                <option value="another service">Another service</option>
+              </select>
+            </div>
+            <div class="field"><label for="f-site">Current site or listing</label><input id="f-site" name="site" inputmode="url" autocomplete="url"></div>
+          </div>
+        </fieldset>
+      </form>
+      </div>
+
+      <div class="letter">
+        <div class="pane mail">
+          <div class="mail-head">
+            <div><span class="k">To</span><span>advercalcompany@gmail.com</span></div>
+            <div><span class="k">Subject</span><span id="letter-subject" aria-live="polite">Website question from a local business</span></div>
+          </div>
+          <div class="mail-body">
+<pre id="letter-body">Hi AdverCal,
+
+We run a local business and would like to talk about a website.
+
+Could you send us a written quote?</pre>
+          </div>
+          <div class="send">
+            <a class="btn" id="brief-send" href="mailto:advercalcompany@gmail.com?subject=Website%20question%20from%20a%20local%20business&amp;body=Hi%20AdverCal%2C%0A%0AWe%20run%20a%20local%20business%20and%20would%20like%20to%20talk%20about%20a%20website.%0A%0ACould%20you%20send%20us%20a%20written%20quote%3F">Open in your email app</a>
+            <p class="alt">Or write to <a class="link" href="mailto:advercalcompany@gmail.com">advercalcompany@gmail.com</a> in your own words.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div><p>AdverCal is Saman Khadivar, Jeevan Karandikar and Sohan Lele.</p><a class="foot-mail" href="mailto:advercalcompany@gmail.com">advercalcompany@gmail.com</a></div>
+    <nav aria-label="Footer">
+      <a href="services.html">Sites we build</a>
+      <a href="care.html">Monthly care</a>
+      <a href="how.html">How we work</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
 </body>
 </html>
