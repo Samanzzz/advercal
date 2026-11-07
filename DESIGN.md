@@ -32,12 +32,12 @@ Sentence case everywhere. Plain sentences an owner would repeat to a friend. Sta
 - 2026-11-03: product-led direction chosen over a type-led printed rate card. Each page shows what the owner gets before describing it.
 - 2026-11-03: audience narrowed to restaurants, bars, clubs, clinics and local businesses nationwide. Rejected: freelancers, academics and the Southern California framing.
 - 2026-11-03: drawn sites carry no invented business names, and no real business appears until it signs.
+- 2026-11-07: the name is spelled AdverCal, with the capital C, everywhere (Jeevan).
 - 2026-11-03: rejected looks, kept rejected: the old blue and postcard mosaic, cream with a serif and clay accent, near-black with an acid accent, rows of identical cards.
 
 ## Open items
-1. Brand spelling: the site keeps "AdverCal" from the old wordmark; the team also writes "Advercal". Pick one.
-2. The sharing image `assets/og.png` (1200x630) is rendered from an HTML card in the site's own look: wordmark, home headline and the drawn restaurant phone. Rerender it when the home headline changes.
-3. The repo is public because free GitHub Pages needs it. Moving to a private repo means Cloudflare Pages or a paid GitHub plan.
+1. The sharing image `assets/og.png` (1200x630) is rendered from an HTML card in the site's own look: wordmark, home headline and the drawn restaurant phone. Rerender it when the home headline changes.
+2. The repo is public because free GitHub Pages needs it. Moving to a private repo means Cloudflare Pages or a paid GitHub plan.
 
 ## How to check
 Open the pages from disk or any static server. Check at 390, 768 and 1280, light and dark, keyboard focus, and the contact page with JavaScript off. Run the writing check on every page.
