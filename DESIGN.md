@@ -22,12 +22,14 @@ All in `:root` at the top of `assets/site.css`, with dark values under `prefers-
 Switzer and Zodiak from Fontshare under the ITF Free Font License. No photographs and no third-party images. Banned: SF Pro, New York, SF Mono, SF Symbols and anything else from Apple's Design Resources, including traced device bezels.
 
 ## Surfaces
-Home, Sites we build (`services.html`), Monthly care (`care.html`), How we work (`how.html`), Contact (`contact.html`). Each page leads with one drawn object of what the owner receives: a restaurant site on a phone, a clinic site in a browser, the monthly report email and its PDF, the private preview and a change request, the contact form.
+Home, What we build (`services.html`), Monthly care (`care.html`), How we work (`how.html`), Contact (`contact.html`), and `thanks.html` after a plain form post. Each page leads with one drawn object: a bar's site on a phone with its open-now line and tonight's lineup (home), a clinic site in a browser with the bookings screen of the app behind it (What we build), the monthly report email and its PDF, the private preview and a change request, the contact form. Under the home hero, six capability tiles each draw a different kind of object: a lineup list from a ticketing service, an open-now sign, a bookings web app, a vertical video, a search result with its structured data, and a sheet of booking and ordering buttons. Motion appears only where it shows a capability: the sign switching on when its clock reaches opening time, last night dropping off the lineup, and the video's scenes playing. Each settles on its end state, which is also what reduced motion shows.
 
 ## Writing
 Sentence case everywhere. Plain sentences an owner would repeat to a friend. State only what the studio really does; no client names, counts, testimonials, prices or pricing terms; pricing is a conversation.
 
 ## Decisions
+- 2026-11-07: the site shows the studio's whole range, not only simple static sites with monthly care. The home page leads with a live venue site and six capability tiles; `services.html` (now "What we build") lists capabilities on the site and beyond it before the kinds of business. Rejected: a row of identical capability cards, so every tile draws a different object at a different size.
+- 2026-11-07: the code sample in the search tile is set in JetBrains Mono from Google Fonts, loaded only on the home page, whose CSP allows fonts.googleapis.com and fonts.gstatic.com for it.
 - 2026-11-03: multi-page site replaces the single scrolling page. Rejected: one long page, which hid the care and process detail behind scrolling.
 - 2026-11-03: product-led direction chosen over a type-led printed rate card. Each page shows what the owner gets before describing it.
 - 2026-11-03: audience narrowed to restaurants, bars, clubs, clinics and local businesses nationwide. Rejected: freelancers, academics and the Southern California framing.
@@ -46,6 +48,12 @@ Sentence case everywhere. Plain sentences an owner would repeat to a friend. Sta
 Open the pages from disk or any static server. Check at 390, 768 and 1280, light and dark, keyboard focus, and the contact page with JavaScript off. Run the writing check on every page.
 
 ## Checked
+2026-11-07, range redesign:
+- Every page at 390 and 1280, light and dark, full page after the one-time motion settles; home also at 768. Screenshots in `.design-refs/b/shots/`. No sideways scroll, no console errors.
+- Real words stay whole in every crop at 390 and 1280 (lineup, sign, app, search, buttons, hero satellites).
+- Writing check: 0 problems on all six pages.
+- Not looked at: the motion frame by frame, 200% zoom, a screen reader pass on the new tiles.
+
 2026-11-07, contact form:
 - Contact at 390, 768 and 1280 and the new thanks page at 390 and 1280, light and dark; shots in `.design-refs/b/shots/`. No sideways scroll.
 - With JavaScript, against a stubbed Web3Forms endpoint: empty and malformed email show an announced error and focus the field; a failed send shows the error with the email address; a good send shows the sent state and moves focus to it; the posted data carries no `redirect`. Subjects checked for nothing ticked, care only, changes with care, and a full new-site request.
@@ -53,7 +61,7 @@ Open the pages from disk or any static server. Check at 390, 768 and 1280, light
 - Every target on the contact page is 44px or taller at 390. Writing check: 0 problems on `contact.html` and `thanks.html`.
 
 2026-11-03, after the first review (P1 1 to 3, P2 1 to 15 applied):
-- Every page (home, Sites we build, Monthly care, How we work, Contact) at 390, 768 and 1280 wide, light and dark, full page. Screenshots in `.design-refs/b/shots/` as `<page>-<width>-<scheme>.png`. No sideways scroll at any width, no console errors.
+- Every page (home, What we build, Monthly care, How we work, Contact) at 390, 768 and 1280 wide, light and dark, full page. Screenshots in `.design-refs/b/shots/` as `<page>-<width>-<scheme>.png`. No sideways scroll at any width, no console errors.
 - Contact with JavaScript off: the choices and the composing sentence are hidden; the ready email, its mailto button and the address show.
 - Contact composer driven through nothing ticked, care only, office with changes and care, trade with a redo and timing, and a full cafe email with name, site, booking service and a call. Each gave a true subject and one owner's voice. Only the subject is a live region.
 - Contact targets at 390: every link, chip, field and button is 44px tall or more, including the inline address.
