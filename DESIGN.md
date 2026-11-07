@@ -4,7 +4,7 @@
 advercal.com, the website of AdverCal, a web studio run by three engineers from Apple, Amazon, UC San Diego and the University of Pennsylvania. It speaks to owners and managers of restaurants, bars, clubs, clinics and other local businesses anywhere in the US. They read it on a phone, often between services, and should leave knowing what they would get, that they own it, and how to write to us.
 
 ## Stack
-Plain static HTML and CSS served by GitHub Pages from `main` (`CNAME` is `advercal.com`). One stylesheet, `assets/site.css`. One script, `assets/site.js`, loaded only on `contact.html`, which composes a mailto email. Every page reads correctly without it. Each page carries its own strict CSP in a meta tag.
+Plain static HTML and CSS served by GitHub Pages from `main` (`CNAME` is `advercal.com`). One stylesheet, `assets/site.css`. One script, `assets/site.js`, loaded only on `contact.html`. The contact form posts to Web3Forms (`https://api.web3forms.com/submit`); without JavaScript it is a plain POST that Web3Forms redirects to `thanks.html` (same-domain redirect, allowed on the free plan), and with JavaScript it posts with fetch, builds the subject from the choices and shows the sent or error state in place. Every page reads correctly without the script. Each page carries its own strict CSP in a meta tag.
 
 ## Canon
 Its own system, with Apple's Human Interface Guidelines as the reference for access minimums (contrast, target size, text scaling). The writing rules are the studio's house rules, checked with `node tools/writing.mjs --page <file>` from a WebDog checkout.
@@ -22,7 +22,7 @@ All in `:root` at the top of `assets/site.css`, with dark values under `prefers-
 Switzer and Zodiak from Fontshare under the ITF Free Font License. No photographs and no third-party images. Banned: SF Pro, New York, SF Mono, SF Symbols and anything else from Apple's Design Resources, including traced device bezels.
 
 ## Surfaces
-Home, Sites we build (`services.html`), Monthly care (`care.html`), How we work (`how.html`), Contact (`contact.html`). Each page leads with one drawn object of what the owner receives: a restaurant site on a phone, a clinic site in a browser, the monthly report email and its PDF, the private preview and a change request, the composed email.
+Home, Sites we build (`services.html`), Monthly care (`care.html`), How we work (`how.html`), Contact (`contact.html`). Each page leads with one drawn object of what the owner receives: a restaurant site on a phone, a clinic site in a browser, the monthly report email and its PDF, the private preview and a change request, the contact form.
 
 ## Writing
 Sentence case everywhere. Plain sentences an owner would repeat to a friend. State only what the studio really does; no client names, counts, testimonials, prices or pricing terms; pricing is a conversation.
@@ -40,11 +40,18 @@ Sentence case everywhere. Plain sentences an owner would repeat to a friend. Sta
 ## Open items
 1. The sharing image `assets/og.png` (1200x630) is rendered from an HTML card in the site's own look: wordmark, home headline and the drawn restaurant phone. Rerender it when the home headline changes.
 2. The repo is public because free GitHub Pages needs it. Moving to a private repo means Cloudflare Pages or a paid GitHub plan.
+3. The contact form will not send until `YOUR_WEB3FORMS_ACCESS_KEY` in `contact.html` (the hidden `access_key` input, its only place) is replaced with the real Web3Forms access key. Until then every submission fails and the page offers the email address.
 
 ## How to check
 Open the pages from disk or any static server. Check at 390, 768 and 1280, light and dark, keyboard focus, and the contact page with JavaScript off. Run the writing check on every page.
 
 ## Checked
+2026-11-07, contact form:
+- Contact at 390, 768 and 1280 and the new thanks page at 390 and 1280, light and dark; shots in `.design-refs/b/shots/`. No sideways scroll.
+- With JavaScript, against a stubbed Web3Forms endpoint: empty and malformed email show an announced error and focus the field; a failed send shows the error with the email address; a good send shows the sent state and moves focus to it; the posted data carries no `redirect`. Subjects checked for nothing ticked, care only, changes with care, and a full new-site request.
+- Without JavaScript: the browser blocks an empty email, and a filled form posts and lands on `thanks.html`.
+- Every target on the contact page is 44px or taller at 390. Writing check: 0 problems on `contact.html` and `thanks.html`.
+
 2026-11-03, after the first review (P1 1 to 3, P2 1 to 15 applied):
 - Every page (home, Sites we build, Monthly care, How we work, Contact) at 390, 768 and 1280 wide, light and dark, full page. Screenshots in `.design-refs/b/shots/` as `<page>-<width>-<scheme>.png`. No sideways scroll at any width, no console errors.
 - Contact with JavaScript off: the choices and the composing sentence are hidden; the ready email, its mailto button and the address show.
