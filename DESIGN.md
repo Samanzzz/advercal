@@ -1,7 +1,7 @@
 # Design
 
 ## Product
-advercal.com, the website of AdverCal, a web studio run by three engineers from Apple, Amazon, UC San Diego and the University of Pennsylvania. It speaks to owners and managers of restaurants, bars, clubs, clinics and other local businesses anywhere in the US. They read it on a phone, often between services, and should leave knowing what they would get, that they own it, and how to write to us.
+advercal.com, the website of AdverCal, a web studio run by three engineers who have worked at Apple and Amazon and studied at UC San Diego and the University of Pennsylvania. It speaks to owners and managers of restaurants, bars, clubs, clinics and other local businesses anywhere in the US. They read it on a phone, often between services, and should leave knowing what they would get, that they own it, and how to write to us.
 
 ## Stack
 Plain static HTML and CSS served by GitHub Pages from `main` (`CNAME` is `advercal.com`). One stylesheet, `assets/site.css`. One script, `assets/site.js`, loaded only on `contact.html`. The contact form posts to Web3Forms (`https://api.web3forms.com/submit`); without JavaScript it is a plain POST that Web3Forms redirects to `thanks.html` (same-domain redirect, allowed on the free plan), and with JavaScript it posts with fetch, builds the subject from the choices and shows the sent or error state in place. Every page reads correctly without the script. Each page carries its own strict CSP in a meta tag.
@@ -33,7 +33,7 @@ Sentence case everywhere. Plain sentences an owner would repeat to a friend. Sta
 - 2026-11-03: audience narrowed to restaurants, bars, clubs, clinics and local businesses nationwide. Rejected: freelancers, academics and the Southern California framing.
 - 2026-11-03: drawn sites carry no invented business names, and no real business appears until it signs.
 - 2026-11-07: no prices, quotes or pricing terms on the site; every close invites a conversation (Jeevan).
-- 2026-11-07: no partner names on the site; the footer says three engineers from Apple, Amazon, UC San Diego and the University of Pennsylvania (Jeevan).
+- 2026-11-07: no partner names on the site; the footer says three engineers who have worked at Apple and Amazon and studied at UC San Diego and the University of Pennsylvania (Jeevan).
 - 2026-11-07: the name is spelled AdverCal, with the capital C, everywhere (Jeevan).
 - 2026-11-03: rejected looks, kept rejected: the old blue and postcard mosaic, cream with a serif and clay accent, near-black with an acid accent, rows of identical cards.
 
