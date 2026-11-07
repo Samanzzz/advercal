@@ -643,18 +643,21 @@ main > section.compose-band { background: var(--band); padding-block: var(--s7) 
 .vid-cap .ph { opacity: 0.85; height: 12px; }
 .vid-cap .ph.sub { opacity: 0.45; height: 8px; }
 .vid-cap .logo { width: 56px; height: 10px; background: #f2c14e; opacity: 1; margin-bottom: 6px; }
+/* The video plays once and holds its last scene, which is also the still under reduced motion */
+.vid-f.c { opacity: 1; }
+.vid-seg span + span::after { transform: scaleX(1); }
 @media (prefers-reduced-motion: no-preference) {
-  .vid-seg span::after { animation: seg 9s linear infinite; }
+  .vid-seg span::after { animation: seg 9s linear 0.6s 1 both; }
   .vid-seg span:nth-child(2)::after { animation-name: seg2; }
   .vid-seg span:nth-child(3)::after { animation-name: seg3; }
-  .vid-f.b { animation: fb 9s ease-in-out infinite; }
-  .vid-f.c { animation: fc 9s ease-in-out infinite; }
+  .vid-f.b { animation: fb 9s ease-in-out 0.6s 1 both; }
+  .vid-f.c { animation: fc 9s ease-in-out 0.6s 1 both; }
 }
 @keyframes seg { 0% { transform: scaleX(0); } 33.3%, 100% { transform: scaleX(1); } }
 @keyframes seg2 { 0%, 33.3% { transform: scaleX(0); } 66.6%, 100% { transform: scaleX(1); } }
-@keyframes seg3 { 0%, 66.6% { transform: scaleX(0); } 99.9% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes seg3 { 0%, 66.6% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
 @keyframes fb { 0%, 30% { opacity: 0; } 34%, 64% { opacity: 1; } 68%, 100% { opacity: 0; } }
-@keyframes fc { 0%, 64% { opacity: 0; } 68%, 97% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes fc { 0%, 64% { opacity: 0; } 68%, 100% { opacity: 1; } }
 
 /* Home hero: a venue's site with the live line and tonight's lineup */
 .v-site { background: #121016; color: #efe9f3; }
@@ -691,3 +694,24 @@ main > section.compose-band { background: var(--band); padding-block: var(--s7) 
 @media (min-width: 600px) { .mini-app { top: 300px; zoom: 1; } }
 @media (min-width: 960px) { .mini-app { right: auto; left: -16px; top: 470px; } }
 @media (max-width: 599px) { .mini-app .app-row:nth-child(4) { display: none; } }
+
+/* Where the browser supports it, the tiles below the hero play as they scroll into view
+   instead of on load, so the change happens where it can be seen. Scrolling back reverses it. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .cap .sg-closed, .cap .sg-clock .t1, .cap .sg-open, .cap .sg-clock .t2,
+    .cap .cal-list, .cap .cal-row.past,
+    .cap .vid-seg span::after, .cap .vid-f.b, .cap .vid-f.c {
+      animation-duration: auto; animation-delay: 0s; animation-timeline: view();
+    }
+    .cap .sg-closed, .cap .sg-clock .t1, .cap .sg-open, .cap .sg-clock .t2 { animation-range: cover 35% cover 45%; }
+    .cap .cal-row.past { animation-range: cover 35% cover 42%; }
+    .cap .cal-list { animation-range: cover 38% cover 50%; }
+    .cap .vid-seg span::after, .cap .vid-f.b, .cap .vid-f.c { animation-range: entry 60% cover 65%; }
+  }
+}
+.close-act { display: grid; gap: var(--s2); justify-items: start; }
+.close-act p { margin: 0; font-size: var(--t-cap); color: var(--ink-2); }
+.close-act p a { display: inline-flex; align-items: center; min-height: 44px; overflow-wrap: anywhere; }
+/* clip, not hidden: a hidden overflow is a scroll container and would pin the view timelines */
+.cap, .cap-stage, .cal, .cal-win, .vid, .app { overflow: clip; }

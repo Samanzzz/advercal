@@ -48,6 +48,13 @@ Sentence case everywhere. Plain sentences an owner would repeat to a friend. Sta
 Open the pages from disk or any static server. Check at 390, 768 and 1280, light and dark, keyboard focus, and the contact page with JavaScript off. Run the writing check on every page.
 
 ## Checked
+2026-11-07, site-patterns checklist (design-jeev `references/site-patterns.md`) at 390 and 1280:
+- Navigation: four destinations, so a visible row under the name on phones and no toggle; current page has `aria-current` and an underline bar; bar and footer links 44px tall. Unchanged.
+- The one action: "Write to us" word for word in the header, after every hero, in every closing band and in the footer, which replaced its Contact link. The closing bands print the address beside it. No price beside it, by the studio's rule.
+- Motion: the home headline does not animate and nothing starts at zero opacity outside the drawn tiles. The video plays once and holds its last scene instead of looping offscreen. The sign and lineup tiles run on CSS scroll-driven timelines (`view()`) where supported, so they change as they scroll into view; elsewhere they play once on load. Tile overflow is `clip`, since a hidden overflow made each tile its own scroll container and froze the timelines. No JavaScript on the home page.
+- Measured in Chrome with reduced motion off: the sign reads Closed as it enters and Open now at mid-screen, and last night leaves the lineup as it passes mid-screen. With it on, every tile shows its end state at any scroll position. Full-page shots are taken at the top, so tiles below the fold show their starting state.
+- Every page re-shot at 390 and 1280, light and dark; no sideways scroll, no console errors. Writing check: 0 problems on all six pages.
+
 2026-11-07, range redesign:
 - Every page at 390 and 1280, light and dark, full page after the one-time motion settles; home also at 768. Screenshots in `.design-refs/b/shots/`. No sideways scroll, no console errors.
 - Real words stay whole in every crop at 390 and 1280 (lineup, sign, app, search, buttons, hero satellites).
