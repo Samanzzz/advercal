@@ -62,7 +62,7 @@ if (form) {
     }[when];
     if (timing) lines.push(timing);
     if (site) lines.push(`You can see us at ${site}.`);
-    const ask = call ? "A short call first would help. Could you send us a written quote?" : "Could you send us a written quote?";
+    const ask = call ? "Could we set up a short call?" : "Could we talk about it?";
     const body = ["Hi AdverCal,", lines.join(" "), ask].concat(name ? [name] : []).join("\n\n");
     return { subject, body };
   };

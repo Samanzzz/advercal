@@ -25,13 +25,14 @@ Switzer and Zodiak from Fontshare under the ITF Free Font License. No photograph
 Home, Sites we build (`services.html`), Monthly care (`care.html`), How we work (`how.html`), Contact (`contact.html`). Each page leads with one drawn object of what the owner receives: a restaurant site on a phone, a clinic site in a browser, the monthly report email and its PDF, the private preview and a change request, the composed email.
 
 ## Writing
-Sentence case everywhere. Plain sentences an owner would repeat to a friend. State only what the studio really does; no client names, counts, testimonials, prices or promises beyond a written quote first.
+Sentence case everywhere. Plain sentences an owner would repeat to a friend. State only what the studio really does; no client names, counts, testimonials, prices or pricing terms; pricing is a conversation.
 
 ## Decisions
 - 2026-11-03: multi-page site replaces the single scrolling page. Rejected: one long page, which hid the care and process detail behind scrolling.
 - 2026-11-03: product-led direction chosen over a type-led printed rate card. Each page shows what the owner gets before describing it.
 - 2026-11-03: audience narrowed to restaurants, bars, clubs, clinics and local businesses nationwide. Rejected: freelancers, academics and the Southern California framing.
 - 2026-11-03: drawn sites carry no invented business names, and no real business appears until it signs.
+- 2026-11-07: no prices, quotes or pricing terms on the site; every close invites a conversation (Jeevan).
 - 2026-11-07: no partner names on the site; the footer says three engineers from Apple, Amazon, UC San Diego and the University of Pennsylvania (Jeevan).
 - 2026-11-07: the name is spelled AdverCal, with the capital C, everywhere (Jeevan).
 - 2026-11-03: rejected looks, kept rejected: the old blue and postcard mosaic, cream with a serif and clay accent, near-black with an acid accent, rows of identical cards.
