@@ -3,19 +3,131 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' https://api.fontshare.com; font-src https://cdn.fontshare.com; img-src 'self'; base-uri 'none'; form-action 'none'">
-<title>Contact · AdverCal</title>
-<meta http-equiv="refresh" content="0; url=./#brief">
-<link rel="canonical" href="https://advercal.com/#brief">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://api.fontshare.com; font-src https://cdn.fontshare.com; img-src 'self' data:; connect-src https://api.web3forms.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self' https://api.web3forms.com">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Contact, AdverCal</title>
+<meta name="description" content="Tell AdverCal about your business and what your website needs, or write to advercalcompany@gmail.com.">
+<link rel="canonical" href="https://advercal.com/contact.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://advercal.com/contact.html">
+<meta property="og:title" content="Contact, AdverCal">
+<meta property="og:description" content="Tell AdverCal about your business and what your website needs, or write to advercalcompany@gmail.com.">
+<meta property="og:image" content="https://advercal.com/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AdverCal, websites for restaurants, bars, clinics and local shops">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#e4e8e2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181d1a" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,700&amp;display=swap">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&amp;f[]=zodiak@400&amp;display=swap">
 <link rel="stylesheet" href="assets/site.css">
+<script src="assets/site.js" defer></script>
 </head>
 <body>
-<main class="simple">
-  <a class="wordmark" href="./">AdverCal</a>
-  <h1>Contact has moved</h1>
-  <p>Everything is on <a class="link" href="./#brief">our home page</a> now.</p>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="index.html" aria-label="AdverCal home"><svg viewBox="0 0 22 22" aria-hidden="true"><rect x="5" y="1.75" width="12" height="18.5" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect class="dot" x="8" y="12.5" width="6" height="3" rx="1.2"/></svg>AdverCal</a>
+    <a class="btn small" href="contact.html" aria-current="page">Write to us</a>
+    <nav class="nav" aria-label="Main">
+      <a href="services.html">What we build</a>
+      <a href="care.html">Monthly care</a>
+      <a href="how.html">How we work</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="compose-band">
+    <div class="wrap compose">
+      <div class="compose-left">
+        <div class="compose-intro">
+          <h1>Tell us about your business</h1>
+          <p class="lede">Say what you run and what your site needs. We write back to talk it through.</p>
+          <p class="alt">You can also write to <a class="link" href="mailto:advercalcompany@gmail.com">advercalcompany@gmail.com</a>.</p>
+        </div>
+      </div>
+
+      <div class="pane form-pane" id="form-pane">
+        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+          <input type="hidden" name="subject" id="f-subject" value="Website question from a local business">
+          <input type="hidden" name="from_name" value="advercal.com">
+          <input type="hidden" name="redirect" value="https://advercal.com/thanks.html">
+          <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <fieldset>
+            <legend>Your business</legend>
+            <div class="choices">
+                <label class="choice"><input type="radio" name="Kind of business" value="Restaurant"><span>Restaurant</span></label>
+                <label class="choice"><input type="radio" name="Kind of business" value="Cafe"><span>Cafe</span></label>
+                <label class="choice"><input type="radio" name="Kind of business" value="Bar"><span>Bar</span></label>
+                <label class="choice"><input type="radio" name="Kind of business" value="Club"><span>Club</span></label>
+                <label class="choice"><input type="radio" name="Kind of business" value="Clinic"><span>Clinic</span></label>
+                <label class="choice"><input type="radio" name="Kind of business" value="Salon"><span>Salon</span></label>
+                <label class="choice"><input type="radio" name="Kind of business" value="Shop"><span>Shop</span></label>
+                <label class="choice"><input type="radio" name="Kind of business" value="Trade"><span>Trade</span></label>
+                <label class="choice"><input type="radio" name="Kind of business" value="Office"><span>Office</span></label>
+                <label class="choice"><input type="radio" name="Kind of business" value="Other"><span>Other</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>What you need</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="Need" value="A new site"><span>A new site</span></label>
+              <label class="choice"><input type="radio" name="Need" value="Redo our site"><span>Redo our site</span></label>
+              <label class="choice"><input type="radio" name="Need" value="Changes to our site"><span>Changes to our site</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Also</legend>
+            <div class="choices">
+              <label class="choice"><input type="checkbox" name="Monthly care" value="Yes"><span>Monthly care</span></label>
+              <label class="choice"><input type="checkbox" name="Call first" value="Yes"><span>A short call first</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>About you</legend>
+            <div class="fields">
+              <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name"></div>
+              <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email" inputmode="email" aria-describedby="f-email-err"><p class="field-error" id="f-email-err" hidden></p></div>
+              <div class="field"><label for="f-org">Business name</label><input id="f-org" name="Business name" autocomplete="organization"></div>
+              <div class="field"><label for="f-site">Current site or listing</label><input id="f-site" name="Current site or listing" inputmode="url" autocomplete="url"></div>
+              <div class="field wide"><label for="f-message">Message</label><textarea id="f-message" name="message" rows="5"></textarea></div>
+            </div>
+          </fieldset>
+
+          <div class="form-send">
+            <div class="form-status" id="form-status" role="alert"></div>
+            <button class="btn" type="submit" id="form-submit">Send</button>
+          </div>
+        </form>
+        <div class="sent" id="form-sent" hidden>
+          <h2 tabindex="-1">Thanks, it's sent</h2>
+          <p>We'll reply to <span id="sent-email">your email</span>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div><p>Built by three engineers who have worked at Apple and Amazon and studied at UC San Diego and the University of Pennsylvania.</p><a class="foot-mail" href="mailto:advercalcompany@gmail.com">advercalcompany@gmail.com</a></div>
+    <nav aria-label="Footer">
+      <a href="services.html">What we build</a>
+      <a href="care.html">Monthly care</a>
+      <a href="how.html">How we work</a>
+      <a href="contact.html">Write to us</a>
+    </nav>
+  </div>
+</footer>
 </body>
 </html>

@@ -1,0 +1,83 @@
+# Design
+
+## Product
+advercal.com, the website of AdverCal, a web studio run by three engineers who have worked at Apple and Amazon and studied at UC San Diego and the University of Pennsylvania. It speaks to owners and managers of restaurants, bars, clubs, clinics and other local businesses anywhere in the US. They read it on a phone, often between services, and should leave knowing what they would get, that they own it, and how to write to us.
+
+## Stack
+Plain static HTML and CSS served by GitHub Pages from `main` (`CNAME` is `advercal.com`). One stylesheet, `assets/site.css`. One script, `assets/site.js`, loaded only on `contact.html`. The contact form posts to Web3Forms (`https://api.web3forms.com/submit`); without JavaScript it is a plain POST that Web3Forms redirects to `thanks.html` (same-domain redirect, allowed on the free plan), and with JavaScript it posts with fetch, builds the subject from the choices and shows the sent or error state in place. Every page reads correctly without the script. Each page carries its own strict CSP in a meta tag.
+
+## Canon
+Its own system, with Apple's Human Interface Guidelines as the reference for access minimums (contrast, target size, text scaling). The writing rules are the studio's house rules, checked with `node tools/writing.mjs --page <file>` from a WebDog checkout.
+
+## Tokens
+All in `:root` at the top of `assets/site.css`, with dark values under `prefers-color-scheme: dark`.
+- Color, light: ground `#f2f3f0`, band `#e4e8e2`, surface `#ffffff`, ink `#141815`, secondary ink `#454d47` and `#5c645e`, line `#d0d5cd`, accent bottle green `#1d5a44`.
+- Color, dark: ground `#101311`, band `#181d1a`, surface `#1d2320`, ink `#e8ece9`, secondary ink `#b2bbb5` and `#959e98`, line `#2d3530`, accent mint `#84c9a9`.
+- Type: Switzer (Fontshare) for everything we say. Zodiak appears only inside the drawn restaurant site, as that business's own face. Sizes: caption 14px, body 17px, sub 22px, h2 28 to 38px, h1 38 to 64px.
+- Spacing: 4, 8, 12, 16, 24, 32, 48, 64, 96. Gutter 16px on phones, 32 from 768, 40 from 1100.
+- Radius: 10px controls, 18px panes.
+- Motion: none.
+
+## Assets and licenses
+Switzer and Zodiak from Fontshare under the ITF Free Font License. No photographs and no third-party images. Banned: SF Pro, New York, SF Mono, SF Symbols and anything else from Apple's Design Resources, including traced device bezels.
+
+## Surfaces
+Home, What we build (`services.html`), Monthly care (`care.html`), How we work (`how.html`), Contact (`contact.html`), and `thanks.html` after a plain form post. Each page leads with one drawn object: a bar's site on a phone with its open-now line and tonight's lineup (home), a clinic site in a browser with the bookings screen of the app behind it (What we build), the monthly report email and its PDF, the private preview and a change request, the contact form. Under the home hero, six capability tiles each draw a different kind of object: a lineup list from a ticketing service, an open-now sign, a bookings web app, a vertical video, a search result with its structured data, and a sheet of booking and ordering buttons. Motion appears only where it shows a capability: the sign switching on when its clock reaches opening time, last night dropping off the lineup, and the video's scenes playing. Each settles on its end state, which is also what reduced motion shows.
+
+## Writing
+Sentence case everywhere. Plain sentences an owner would repeat to a friend. State only what the studio really does; no client names, counts, testimonials, prices or pricing terms; pricing is a conversation.
+
+## Decisions
+- 2026-11-07: the site shows the studio's whole range, not only simple static sites with monthly care. The home page leads with a live venue site and six capability tiles; `services.html` (now "What we build") lists capabilities on the site and beyond it before the kinds of business. Rejected: a row of identical capability cards, so every tile draws a different object at a different size.
+- 2026-11-07: the code sample in the search tile is set in JetBrains Mono from Google Fonts, loaded only on the home page, whose CSP allows fonts.googleapis.com and fonts.gstatic.com for it.
+- 2026-11-03: multi-page site replaces the single scrolling page. Rejected: one long page, which hid the care and process detail behind scrolling.
+- 2026-11-03: product-led direction chosen over a type-led printed rate card. Each page shows what the owner gets before describing it.
+- 2026-11-03: audience narrowed to restaurants, bars, clubs, clinics and local businesses nationwide. Rejected: freelancers, academics and the Southern California framing.
+- 2026-11-03: drawn sites carry no invented business names, and no real business appears until it signs.
+- 2026-11-07: no prices, quotes or pricing terms on the site; every close invites a conversation (Jeevan).
+- 2026-11-07: no partner names on the site; the footer says three engineers who have worked at Apple and Amazon and studied at UC San Diego and the University of Pennsylvania (Jeevan).
+- 2026-11-07: the name is spelled AdverCal, with the capital C, everywhere (Jeevan).
+- 2026-11-03: rejected looks, kept rejected: the old blue and postcard mosaic, cream with a serif and clay accent, near-black with an acid accent, rows of identical cards.
+
+## Open items
+1. The sharing image `assets/og.png` (1200x630) is rendered from an HTML card in the site's own look: wordmark, home headline and the drawn restaurant phone. Rerender it when the home headline changes.
+2. The repo is public because free GitHub Pages needs it. Moving to a private repo means Cloudflare Pages or a paid GitHub plan.
+3. The contact form will not send until `YOUR_WEB3FORMS_ACCESS_KEY` in `contact.html` (the hidden `access_key` input, its only place) is replaced with the real Web3Forms access key. Until then every submission fails and the page offers the email address.
+
+## How to check
+Open the pages from disk or any static server. Check at 390, 768 and 1280, light and dark, keyboard focus, and the contact page with JavaScript off. Run the writing check on every page.
+
+## Checked
+2026-11-07, site-patterns checklist (design-jeev `references/site-patterns.md`) at 390 and 1280:
+- Navigation: four destinations, so a visible row under the name on phones and no toggle; current page has `aria-current` and an underline bar; bar and footer links 44px tall. Unchanged.
+- The one action: "Write to us" word for word in the header, after every hero, in every closing band and in the footer, which replaced its Contact link. The closing bands print the address beside it. No price beside it, by the studio's rule.
+- Motion: the home headline does not animate and nothing starts at zero opacity outside the drawn tiles. The video plays once and holds its last scene instead of looping offscreen. The sign and lineup tiles run on CSS scroll-driven timelines (`view()`) where supported, so they change as they scroll into view; elsewhere they play once on load. Tile overflow is `clip`, since a hidden overflow made each tile its own scroll container and froze the timelines. No JavaScript on the home page.
+- Measured in Chrome with reduced motion off: the sign reads Closed as it enters and Open now at mid-screen, and last night leaves the lineup as it passes mid-screen. With it on, every tile shows its end state at any scroll position. Full-page shots are taken at the top, so tiles below the fold show their starting state.
+- Every page re-shot at 390 and 1280, light and dark; no sideways scroll, no console errors. Writing check: 0 problems on all six pages.
+
+2026-11-07, range redesign:
+- Every page at 390 and 1280, light and dark, full page after the one-time motion settles; home also at 768. Screenshots in `.design-refs/b/shots/`. No sideways scroll, no console errors.
+- Real words stay whole in every crop at 390 and 1280 (lineup, sign, app, search, buttons, hero satellites).
+- Writing check: 0 problems on all six pages.
+- Not looked at: the motion frame by frame, 200% zoom, a screen reader pass on the new tiles.
+
+2026-11-07, contact form:
+- Contact at 390, 768 and 1280 and the new thanks page at 390 and 1280, light and dark; shots in `.design-refs/b/shots/`. No sideways scroll.
+- With JavaScript, against a stubbed Web3Forms endpoint: empty and malformed email show an announced error and focus the field; a failed send shows the error with the email address; a good send shows the sent state and moves focus to it; the posted data carries no `redirect`. Subjects checked for nothing ticked, care only, changes with care, and a full new-site request.
+- Without JavaScript: the browser blocks an empty email, and a filled form posts and lands on `thanks.html`.
+- Every target on the contact page is 44px or taller at 390. Writing check: 0 problems on `contact.html` and `thanks.html`.
+
+2026-11-03, after the first review (P1 1 to 3, P2 1 to 15 applied):
+- Every page (home, What we build, Monthly care, How we work, Contact) at 390, 768 and 1280 wide, light and dark, full page. Screenshots in `.design-refs/b/shots/` as `<page>-<width>-<scheme>.png`. No sideways scroll at any width, no console errors.
+- Contact with JavaScript off: the choices and the composing sentence are hidden; the ready email, its mailto button and the address show.
+- Contact composer driven through nothing ticked, care only, office with changes and care, trade with a redo and timing, and a full cafe email with name, site, booking service and a call. Each gave a true subject and one owner's voice. Only the subject is a live region.
+- Contact targets at 390: every link, chip, field and button is 44px tall or more, including the inline address.
+- Writing check (`node tools/writing.mjs --page`) on all five pages: 0 problems.
+- Not looked at: keyboard focus order beyond the header, 200% text zoom, a screen reader pass.
+
+2026-11-03, after rounds two to four of the fresh review:
+- Every page at 390, 768 and 1280, light and dark, and every page at 390 with 200% text. Screenshots in `.design-refs/review/r2/` to `r4/`.
+- Keyboard focus order and visible focus on all five pages at 390 and 1280. Body text contrast at least 7.0:1 in light and 8.1:1 in dark.
+- Fixed in these rounds: the home h1 clipping at 200% text (now wraps, with a soft hyphen in "restaurants"), the skip link showing at large text, the contact header on phones, and the email address added to every footer on its own wrapping line.
+- No sideways scroll at 390 with 200% text on any page. Writing check: 0 problems on all five pages.
+- Not looked at: a screen reader pass, and real devices.
