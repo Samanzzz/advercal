@@ -1,5 +1,15 @@
 /* AdverCal, direction B: the site leads with what an owner receives, drawn as shown UI. */
 
+/* Fallback faces shaped to Switzer's measure (widths measured in Chrome on the site's own text, ss01 included), so text
+   keeps its line breaks when Switzer swaps in and the page does not shift. Helvetica Neue where the device has
+   it, Arial elsewhere; each weight band is matched to the nearest real weight. */
+@font-face { font-family: "Switzer Fallback"; src: local("Helvetica Neue"), local("HelveticaNeue"); font-weight: 100 449; size-adjust: 99.0%; ascent-override: 99.0%; descent-override: 25.3%; line-gap-override: 0%; }
+@font-face { font-family: "Switzer Fallback"; src: local("Helvetica Neue Medium"), local("HelveticaNeue-Medium"); font-weight: 450 549; size-adjust: 99.2%; ascent-override: 98.8%; descent-override: 25.2%; line-gap-override: 0%; }
+@font-face { font-family: "Switzer Fallback"; src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"); font-weight: 550 900; size-adjust: 97.6%; ascent-override: 100.4%; descent-override: 25.6%; line-gap-override: 0%; }
+@font-face { font-family: "Switzer Arial"; src: local("Arial"), local("ArialMT"); font-weight: 100 449; size-adjust: 100.1%; ascent-override: 97.9%; descent-override: 25.0%; line-gap-override: 0%; }
+@font-face { font-family: "Switzer Arial"; src: local("Arial"), local("ArialMT"); font-weight: 450 549; size-adjust: 104.3%; ascent-override: 94.0%; descent-override: 24.0%; line-gap-override: 0%; }
+@font-face { font-family: "Switzer Arial"; src: local("Arial Bold"), local("Arial-BoldMT"); font-weight: 550 900; size-adjust: 96.9%; ascent-override: 101.1%; descent-override: 25.8%; line-gap-override: 0%; }
+
 :root {
   color-scheme: light;
   --bg: #f2f3f0;
@@ -24,7 +34,7 @@
     0 14px 28px rgb(22 34 28 / 0.07),
     0 34px 68px rgb(22 34 28 / 0.09);
 
-  --font: "Switzer", "Helvetica Neue", Arial, sans-serif;
+  --font: "Switzer", "Switzer Fallback", "Switzer Arial", "Helvetica Neue", Arial, sans-serif;
   --serif: "Zodiak", Georgia, "Times New Roman", serif;
 
   --t-cap: 0.875rem;
@@ -39,6 +49,15 @@
   --r-ctl: 10px;
   --r-pane: 18px;
   --gutter: 16px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-word: 640ms;
+  --t-scene: 1000ms;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -715,3 +734,326 @@ main > section.compose-band { background: var(--band); padding-block: var(--s7) 
 .close-act p a { display: inline-flex; align-items: center; min-height: 44px; overflow-wrap: anywhere; }
 /* clip, not hidden: a hidden overflow is a scroll container and would pin the view timelines */
 .cap, .cap-stage, .cal, .cal-win, .vid, .app { overflow: clip; }
+
+/* ---------- Motion ----------
+   Every animation runs from a start state to the plain CSS above, so reduced motion and a page without
+   JavaScript show the same still as the last frame. Hidden or moved start states live only inside
+   prefers-reduced-motion: no-preference. Scroll-linked pieces use CSS scroll timelines; where a browser has
+   none, motion.js adds .once and each piece plays once as it arrives (.play). */
+
+/* hero headline words sit in a box that clips only vertically, padded past ascenders and descenders, so a
+   word rises from below its own line without the line moving; at large text a long word may still break */
+.wd { display: inline-block; vertical-align: top; max-width: 100%; overflow: visible clip; padding-block: 0.1em 0.16em; margin-block: -0.1em -0.16em; }
+.wd > span { display: inline-block; max-width: 100%; overflow-wrap: anywhere; transform-origin: 0 100%; }
+
+/* rules that draw themselves: the line above each fact and each step is a zero-height border, which forced colours keep */
+.facts > div, .steps li { position: relative; border-top: 0; }
+.facts > div::before, .steps li::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 0; border-top: 1px solid var(--line); transform-origin: 0 50%; }
+
+/* the changed row in the preview is highlighted by a fill that can sweep in */
+.pv-hours .changed { background: none; position: relative; isolation: isolate; }
+.pv-hours .changed::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 6px; background: var(--accent-soft); transform-origin: 0 50%; }
+
+/* frames clip instead of hiding, so they never become scroll containers that would pin the timelines */
+.hero, .tile, .phone, .pane, .vid-seg span { overflow: clip; }
+.stage { perspective: 1400px; }
+
+/* ---------- Controls: hover and press ---------- */
+.btn { transition: background-color var(--t-hover) ease, box-shadow var(--t-hover) ease, transform var(--t-press) var(--ease-out); }
+.btn:active { transform: scale(0.97); }
+.nav a { position: relative; transition: color var(--t-hover) ease; }
+.nav a[aria-current="page"] { text-decoration: none; }
+.nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 8px; height: 2px; border-radius: 1px; background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; transition: transform var(--t-ui) var(--ease-out); }
+.nav a[aria-current="page"]::after { transform: none; }
+.link, .foot a { transition: color var(--t-hover) ease, text-decoration-color var(--t-hover) ease; }
+.mark .dot { transform-box: fill-box; transform-origin: 50% 50%; transition: transform var(--t-ui) var(--ease-out); }
+.mark:active .dot { transform: scaleX(0.7); }
+.choice span { transition: background-color var(--t-hover) ease, box-shadow var(--t-hover) ease, transform var(--t-press) var(--ease-out); }
+.choice:active span { transform: scale(0.96); }
+@media (hover: hover) and (pointer: fine) {
+  .nav a:hover::after { transform: none; }
+  .btn.quiet:hover { box-shadow: inset 0 0 0 1.5px var(--ink-3); }
+  .link { text-decoration-color: color-mix(in srgb, currentColor 45%, transparent); }
+  .link:hover { text-decoration-color: currentColor; }
+  .mark:hover .dot { transform: translateY(-2px); }
+  .choice:hover input:not(:checked) + span { box-shadow: inset 0 0 0 1.5px var(--ink-3); }
+}
+@media (forced-colors: active) { .nav a::after { background: CanvasText; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---------- First screen, on load ---------- */
+  .kin.load .wd > span { animation: word-up var(--t-word) var(--ease-expo) both; }
+  .kin.load .wd:nth-child(1) > span { animation-delay: 20ms; }
+  .kin.load .wd:nth-child(2) > span { animation-delay: 54ms; }
+  .kin.load .wd:nth-child(3) > span { animation-delay: 88ms; }
+  .kin.load .wd:nth-child(4) > span { animation-delay: 122ms; }
+  .kin.load .wd:nth-child(5) > span { animation-delay: 156ms; }
+  .kin.load .wd:nth-child(6) > span { animation-delay: 190ms; }
+  .kin.load .wd:nth-child(7) > span { animation-delay: 224ms; }
+  .kin.load .wd:nth-child(8) > span { animation-delay: 258ms; }
+  .kin.load .wd:nth-child(9) > span { animation-delay: 292ms; }
+  .kin.load .wd:nth-child(10) > span { animation-delay: 326ms; }
+  .kin.load .wd:nth-child(11) > span { animation-delay: 360ms; }
+  .kin.load .wd:nth-child(12) > span { animation-delay: 394ms; }
+  .kin.load .wd:nth-child(13) > span { animation-delay: 428ms; }
+  .kin.load .wd:nth-child(14) > span { animation-delay: 462ms; }
+  .hero-copy .lede, .compose-intro .lede { animation: lift 800ms var(--ease-expo) 140ms both; }
+  .hero-copy .actions, .compose-intro .alt, .thanks .btn { animation: arrive 560ms var(--ease-out) 320ms both; }
+  .stage > .phone, .stage > .pane { animation: obj-in var(--t-scene) var(--ease-expo) 60ms both; }
+  .st-care > .pane { animation: mail-in 820ms var(--ease-expo) 60ms both; }
+  .st-care > .pdf { transform-origin: 0 0; }
+  .st-how .msg { transform-origin: 0 100%; }
+  .st-how .msg.ours { transform-origin: 100% 100%; }
+  .st-home > .vid { animation: side-in 900ms var(--ease-expo) 480ms both; }
+  .st-home .v-live { animation: fade-on 600ms var(--ease-out) 620ms both; }
+  .st-home .v-live i { animation: dot-on 420ms var(--ease-out) 760ms both; }
+  .st-home .v-h + .v-row { animation: drop 560ms var(--ease-out) 820ms both; }
+  .st-home .v-h + .v-row + .v-row { animation: drop 560ms var(--ease-out) 900ms both; }
+  .st-home .v-h + .v-row .v-btn { animation: pop 420ms var(--ease-out) 1000ms both; }
+  .st-home .v-h + .v-row + .v-row .v-btn { animation: pop 420ms var(--ease-out) 1080ms both; }
+  .st-home .v-week .v-row:nth-child(2) { animation: drop 520ms var(--ease-out) 1160ms both; }
+  .st-home .v-week .v-row:nth-child(3) { animation: drop 520ms var(--ease-out) 1230ms both; }
+  .st-home .v-week .v-row:nth-child(4) { animation: drop 520ms var(--ease-out) 1300ms both; }
+  .st-home .v-week .v-row:nth-child(5) { animation: drop 520ms var(--ease-out) 1370ms both; }
+  .st-home .v-week .v-row:nth-child(6) { animation: drop 520ms var(--ease-out) 1440ms both; }
+  .st-sites .c-lead .ph:nth-child(1) { animation: grow 700ms var(--ease-expo) 360ms both; }
+  .st-sites .c-lead .ph:nth-child(2) { animation: grow 700ms var(--ease-expo) 430ms both; }
+  .st-sites .c-lead .ph:nth-child(3) { animation: grow 700ms var(--ease-expo) 500ms both; }
+  .st-sites .c-lead .ph:nth-child(4) { animation: grow 700ms var(--ease-expo) 570ms both; }
+  .st-sites .c-card div:nth-of-type(1) { animation: drop 520ms var(--ease-out) 560ms both; }
+  .st-sites .c-card div:nth-of-type(2) { animation: drop 520ms var(--ease-out) 630ms both; }
+  .st-sites .c-card div:nth-of-type(3) { animation: drop 520ms var(--ease-out) 700ms both; }
+  .st-sites .c-row:nth-of-type(1) { animation: arrive 520ms var(--ease-out) 640ms both; }
+  .st-sites .c-row:nth-of-type(2) { animation: arrive 520ms var(--ease-out) 690ms both; }
+  .st-sites .c-row:nth-of-type(3) { animation: arrive 520ms var(--ease-out) 740ms both; }
+  .st-sites .c-row:nth-of-type(4) { animation: arrive 520ms var(--ease-out) 790ms both; }
+  .st-sites .c-row:nth-of-type(5) { animation: arrive 520ms var(--ease-out) 840ms both; }
+  .st-sites .c-row:nth-of-type(6) { animation: arrive 520ms var(--ease-out) 890ms both; }
+  .st-sites .c-lead .c-btn { animation: press 420ms var(--ease-in-out) 1180ms both; }
+  .st-sites > .mini-app { animation: slip-out 820ms var(--ease-expo) 1380ms both; }
+  .st-sites .mini-app .app-row:nth-of-type(2) { animation: drop 480ms var(--ease-out) 1560ms both; }
+  .st-sites .mini-app .app-row:nth-of-type(3) { animation: drop 480ms var(--ease-out) 1670ms both; }
+  .st-sites .mini-app .app-row:nth-of-type(4) { animation: drop 480ms var(--ease-out) 1780ms both; }
+  .st-care .mail-body > :nth-child(1) { animation: arrive 480ms var(--ease-out) 380ms both; }
+  .st-care .mail-body > :nth-child(2) { animation: arrive 480ms var(--ease-out) 460ms both; }
+  .st-care .mail-body > :nth-child(3) { animation: arrive 480ms var(--ease-out) 540ms both; }
+  .st-care .mail-body > :nth-child(4) { animation: arrive 480ms var(--ease-out) 620ms both; }
+  .st-care .mail-body > :nth-child(5) { animation: arrive 480ms var(--ease-out) 700ms both; }
+  .st-care .mail-body > .attach { animation: pop 420ms var(--ease-out) 820ms both; }
+  .st-care > .pdf { animation: pdf-out 960ms var(--ease-expo) 980ms both; }
+  .st-care .pdf li:nth-child(1) :is(svg, .r) { animation: tick 380ms var(--ease-out) 1480ms both; }
+  .st-care .pdf li:nth-child(2) :is(svg, .r) { animation: tick 380ms var(--ease-out) 1600ms both; }
+  .st-care .pdf li:nth-child(3) :is(svg, .r) { animation: tick 380ms var(--ease-out) 1720ms both; }
+  .st-care .pdf li:nth-child(4) :is(svg, .r) { animation: tick 380ms var(--ease-out) 1840ms both; }
+  .st-care .pdf li:nth-child(5) :is(svg, .r) { animation: tick 380ms var(--ease-out) 1960ms both; }
+  .st-care .pdf li:nth-child(6) :is(svg, .r) { animation: tick 380ms var(--ease-out) 2080ms both; }
+  .st-how .msg { animation: bubble 460ms var(--ease-out) 760ms both; }
+  .st-how .msg.ours { animation: bubble 460ms var(--ease-out) 1380ms both; }
+  .st-how .pv-hours .changed::before { animation: grow 640ms var(--ease-in-out) 1800ms both; }
+
+  /* Contact: the form slides up under the headline and its questions arrive in order */
+  .form-pane { animation: lift 900ms var(--ease-expo) 120ms both; }
+  .form-pane fieldset:nth-of-type(1) { animation: arrive 520ms var(--ease-out) 260ms both; }
+  .form-pane fieldset:nth-of-type(2) { animation: arrive 520ms var(--ease-out) 340ms both; }
+  .form-pane fieldset:nth-of-type(3) { animation: arrive 520ms var(--ease-out) 420ms both; }
+  .form-pane fieldset:nth-of-type(4) { animation: arrive 520ms var(--ease-out) 500ms both; }
+  .form-send { animation: arrive 520ms var(--ease-out) 580ms both; }
+  .choice input[type="checkbox"]:checked + span::after { animation: check 220ms var(--ease-out) both; }
+  .sent:not([hidden]) { animation: arrive 560ms var(--ease-out) both; }
+
+  /* the open-now tile: the clock rolls over, Closed goes out, then the sign flickers on like a tube */
+  .sg-clock b { overflow: clip; }
+  .sg-clock .t1 { animation-name: roll-out; }
+  .sg-clock .t2 { animation-name: roll-in; }
+  .sg-open { animation-name: tube-on; animation-duration: 900ms; animation-delay: 2.6s; }
+}
+
+/* ---------- Scroll-linked, where the browser has scroll timelines ---------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero { view-timeline: --hero block; }
+    .facts > div, .steps li { view-timeline: --row block; }
+    .cap { view-timeline: --cap block; }
+    .tile { view-timeline: --tile block; }
+
+    /* wide screens: leaving the first screen, the drawn object tips back and sinks while its satellite rises past it */
+    @media (min-width: 768px) {
+      .stage > .phone, .stage > .pane { animation: obj-in var(--t-scene) var(--ease-expo) 60ms both, tip-back linear both; animation-timeline: auto, --hero; animation-range: normal, exit 0% exit 100%; }
+      .st-care > .pane { animation: mail-in 820ms var(--ease-expo) 60ms both, tip-back linear both; animation-timeline: auto, --hero; animation-range: normal, exit 0% exit 100%; }
+      .st-home > .vid, .st-sites > .mini-app, .st-care > .pdf, .st-how > .thread { animation-name: var(--sat-in, none), rise-past; animation-duration: var(--sat-t, 0s), auto; animation-timing-function: var(--ease-expo), linear; animation-delay: var(--sat-d, 0s), 0s; animation-fill-mode: both; animation-timeline: auto, --hero; animation-range: normal, exit 0% exit 100%; }
+    }
+    /* phones: each object's scene plays as that object comes up the screen, not on load below the fold */
+    @media (max-width: 767px) {
+      .stage > * { view-timeline: --obj block; }
+      .st-home > .vid { animation: side-in linear both; animation-timeline: --obj; animation-range: cover 4% cover 14%; }
+      .st-home .v-live { animation: fade-on linear both; animation-timeline: --obj; animation-range: cover 4% cover 14%; }
+      .st-home .v-live i { animation: dot-on linear both; animation-timeline: --obj; animation-range: cover 8.1% cover 18.1%; }
+      .st-home .v-h + .v-row { animation: drop linear both; animation-timeline: --obj; animation-range: cover 9.9% cover 19.9%; }
+      .st-home .v-h + .v-row + .v-row { animation: drop linear both; animation-timeline: --obj; animation-range: cover 12.2% cover 22.2%; }
+      .st-home .v-h + .v-row .v-btn { animation: pop linear both; animation-timeline: --obj; animation-range: cover 15.1% cover 25.1%; }
+      .st-home .v-h + .v-row + .v-row .v-btn { animation: pop linear both; animation-timeline: --obj; animation-range: cover 17.5% cover 27.5%; }
+      .st-home .v-week .v-row:nth-child(2) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 19.8% cover 29.8%; }
+      .st-home .v-week .v-row:nth-child(3) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 21.9% cover 31.9%; }
+      .st-home .v-week .v-row:nth-child(4) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 23.9% cover 33.9%; }
+      .st-home .v-week .v-row:nth-child(5) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 26% cover 36%; }
+      .st-home .v-week .v-row:nth-child(6) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 28% cover 38%; }
+      .st-sites .c-lead .ph:nth-child(1) { animation: grow linear both; animation-timeline: --obj; animation-range: cover 4% cover 14%; }
+      .st-sites .c-lead .ph:nth-child(2) { animation: grow linear both; animation-timeline: --obj; animation-range: cover 6% cover 16%; }
+      .st-sites .c-lead .ph:nth-child(3) { animation: grow linear both; animation-timeline: --obj; animation-range: cover 8.1% cover 18.1%; }
+      .st-sites .c-lead .ph:nth-child(4) { animation: grow linear both; animation-timeline: --obj; animation-range: cover 10.1% cover 20.1%; }
+      .st-sites .c-card div:nth-of-type(1) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 9.9% cover 19.9%; }
+      .st-sites .c-card div:nth-of-type(2) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 11.9% cover 21.9%; }
+      .st-sites .c-card div:nth-of-type(3) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 14% cover 24%; }
+      .st-sites .c-row:nth-of-type(1) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 12.2% cover 22.2%; }
+      .st-sites .c-row:nth-of-type(2) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 13.7% cover 23.7%; }
+      .st-sites .c-row:nth-of-type(3) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 15.1% cover 25.1%; }
+      .st-sites .c-row:nth-of-type(4) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 16.6% cover 26.6%; }
+      .st-sites .c-row:nth-of-type(5) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 18% cover 28%; }
+      .st-sites .c-row:nth-of-type(6) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 19.5% cover 29.5%; }
+      .st-sites .c-lead .c-btn { animation: press linear both; animation-timeline: --obj; animation-range: cover 28% cover 38%; }
+      .st-sites > .mini-app { animation: slip-out linear both; animation-timeline: --obj; animation-range: cover 4% cover 14%; }
+      .st-sites .mini-app .app-row:nth-of-type(2) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 14.8% cover 24.8%; }
+      .st-sites .mini-app .app-row:nth-of-type(3) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 21.4% cover 31.4%; }
+      .st-sites .mini-app .app-row:nth-of-type(4) { animation: drop linear both; animation-timeline: --obj; animation-range: cover 28% cover 38%; }
+      .st-care .mail-body > :nth-child(1) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 4% cover 14%; }
+      .st-care .mail-body > :nth-child(2) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 8.4% cover 18.4%; }
+      .st-care .mail-body > :nth-child(3) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 12.7% cover 22.7%; }
+      .st-care .mail-body > :nth-child(4) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 17.1% cover 27.1%; }
+      .st-care .mail-body > :nth-child(5) { animation: arrive linear both; animation-timeline: --obj; animation-range: cover 21.5% cover 31.5%; }
+      .st-care .mail-body > .attach { animation: pop linear both; animation-timeline: --obj; animation-range: cover 28% cover 38%; }
+      .st-care > .pdf { animation: pdf-out linear both; animation-timeline: --obj; animation-range: cover 4% cover 14%; }
+      .st-care .pdf li:nth-child(1) :is(svg, .r) { animation: tick linear both; animation-timeline: --obj; animation-range: cover 14.9% cover 24.9%; }
+      .st-care .pdf li:nth-child(2) :is(svg, .r) { animation: tick linear both; animation-timeline: --obj; animation-range: cover 17.5% cover 27.5%; }
+      .st-care .pdf li:nth-child(3) :is(svg, .r) { animation: tick linear both; animation-timeline: --obj; animation-range: cover 20.1% cover 30.1%; }
+      .st-care .pdf li:nth-child(4) :is(svg, .r) { animation: tick linear both; animation-timeline: --obj; animation-range: cover 22.8% cover 32.8%; }
+      .st-care .pdf li:nth-child(5) :is(svg, .r) { animation: tick linear both; animation-timeline: --obj; animation-range: cover 25.4% cover 35.4%; }
+      .st-care .pdf li:nth-child(6) :is(svg, .r) { animation: tick linear both; animation-timeline: --obj; animation-range: cover 28% cover 38%; }
+      .st-how .msg { animation: bubble linear both; animation-timeline: --obj; animation-range: cover 4% cover 14%; }
+      .st-how .msg.ours { animation: bubble linear both; animation-timeline: --obj; animation-range: cover 28% cover 38%; }
+      .st-how .pv-hours .changed::before { animation: grow linear both; animation-timeline: --obj; animation-range: cover 4% cover 14%; }
+    }
+
+    /* Closed goes out first, then the sign flickers on */
+    .cap .sg-closed, .cap .sg-clock .t1, .cap .sg-clock .t2 { animation-range: cover 32% cover 38%; }
+    .cap .sg-open { animation-range: cover 38% cover 50%; }
+
+    /* facts and steps: the rule draws across as the row comes up */
+    .facts > div::before, .steps li::after { animation: grow linear both; animation-timeline: --row; animation-range: cover 0% cover 26%; }
+
+    /* home tiles: each object does its own thing as it scrolls in */
+    .cap-app .app-row:nth-child(2) { animation: row-in linear both; animation-timeline: --cap; animation-range: cover 6% cover 20%; }
+    .cap-app .app-row:nth-child(3) { animation: row-in linear both; animation-timeline: --cap; animation-range: cover 9% cover 23%; }
+    .cap-app .app-row:nth-child(4) { animation: row-in linear both; animation-timeline: --cap; animation-range: cover 12% cover 26%; }
+    .cap-app .app-row:nth-child(5) { animation: row-in linear both; animation-timeline: --cap; animation-range: cover 15% cover 29%; }
+    .cap-app .app-row:nth-child(6) { animation: row-in linear both; animation-timeline: --cap; animation-range: cover 18% cover 32%; }
+    .cap-app .app-row:nth-child(7) { animation: row-in linear both; animation-timeline: --cap; animation-range: cover 21% cover 35%; }
+    .cap-video .vid { animation: vid-open linear both; animation-timeline: --cap; animation-range: cover 0% cover 28%; }
+    .cap-search .srp { animation: lift linear both; animation-timeline: --cap; animation-range: cover 2% cover 24%; }
+    .cap-search .code { animation: code-in linear both; animation-timeline: --cap; animation-range: cover 12% cover 40%; }
+    .cap-book .sheet { animation: sheet-up linear both; animation-timeline: --cap; animation-range: cover 0% cover 26%; }
+    .cap-book .act:nth-of-type(3) { animation: arrive linear both, press-s linear both; animation-timeline: --cap, --cap; animation-range: cover 12% cover 24%, cover 40% cover 48%; }
+    .cap-book .act:nth-of-type(4) { animation: arrive linear both; animation-timeline: --cap; animation-range: cover 16% cover 28%; }
+    .cap-book .act:nth-of-type(5) { animation: arrive linear both; animation-timeline: --cap; animation-range: cover 20% cover 32%; }
+
+    /* kinds of site: the client's page scrolls inside its frame, then its button is pressed */
+    .tile > .phone, .tile > .pane { animation: tile-scroll linear both; animation-timeline: --tile; animation-range: cover 0% cover 50%; }
+    .tile .r-item, .tile .s-row, .tile .b-row { animation: set-in linear both; animation-timeline: --tile; animation-range: cover 8% cover 30%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(1) { animation-range: cover 6% cover 20%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(2) { animation-range: cover 8.4% cover 22.4%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(3) { animation-range: cover 10.8% cover 24.8%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(4) { animation-range: cover 13.2% cover 27.2%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(5) { animation-range: cover 15.6% cover 29.6%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(6) { animation-range: cover 18% cover 32%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(7) { animation-range: cover 20.4% cover 34.4%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(8) { animation-range: cover 22.8% cover 36.8%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(9) { animation-range: cover 25.2% cover 39.2%; }
+    .tile :is(.r-item, .s-row, .b-row):nth-of-type(10) { animation-range: cover 27.6% cover 41.6%; }
+    .tile .c-card { animation: side-in linear both; animation-timeline: --tile; animation-range: cover 6% cover 30%; }
+    .tile .b-btn { animation: fade-on linear both; animation-timeline: --tile; animation-range: cover 22% cover 36%; }
+    .tile :is(.r-chip, .c-btn.big, .s-btn) { animation: press-s linear both; animation-timeline: --tile; animation-range: cover 38% cover 48%; }
+  }
+}
+
+/* ---------- Once, where there are no scroll timelines (motion.js adds .once and .play) ---------- */
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @media (max-width: 767px) {
+      .once .stage > :not(.phone, .pane), .once .stage :is(.phone, .pane) *, .once .stage :is(.phone, .pane) *::before { animation-play-state: paused; }
+    }
+    .once .facts > div::before, .once .steps li::after { animation: grow 800ms var(--ease-in-out) both paused; }
+    .once .cap-app .app-row:nth-child(2) { animation: row-in 560ms var(--ease-out) 0ms both paused; }
+    .once .cap-app .app-row:nth-child(3) { animation: row-in 560ms var(--ease-out) 80ms both paused; }
+    .once .cap-app .app-row:nth-child(4) { animation: row-in 560ms var(--ease-out) 160ms both paused; }
+    .once .cap-app .app-row:nth-child(5) { animation: row-in 560ms var(--ease-out) 240ms both paused; }
+    .once .cap-app .app-row:nth-child(6) { animation: row-in 560ms var(--ease-out) 320ms both paused; }
+    .once .cap-app .app-row:nth-child(7) { animation: row-in 560ms var(--ease-out) 400ms both paused; }
+    .once .cap-video .vid { animation: vid-open 900ms var(--ease-expo) both paused; }
+    .once .cap-search .srp { animation: lift 800ms var(--ease-expo) both paused; }
+    .once .cap-search .code { animation: code-in 1100ms var(--ease-in-out) 200ms both paused; }
+    .once .cap-book .sheet { animation: sheet-up 800ms var(--ease-expo) both paused; }
+    .once .cap-book .act:nth-of-type(3) { animation: arrive 520ms var(--ease-out) 200ms both paused, press-s 420ms var(--ease-in-out) 1000ms both paused; }
+    .once .cap-book .act:nth-of-type(4) { animation: arrive 520ms var(--ease-out) 280ms both paused; }
+    .once .cap-book .act:nth-of-type(5) { animation: arrive 520ms var(--ease-out) 360ms both paused; }
+    .once .cap :is(.sg-closed, .sg-clock .t1, .sg-open, .sg-clock .t2, .cal-list, .cal-row.past) { animation-play-state: paused; animation-delay: 700ms; }
+    .once .cap .cal-list { animation-delay: 900ms; }
+    .once .cap .sg-open { animation-delay: 1100ms; }
+    .once .tile > :is(.phone, .pane) { animation: tile-scroll 1100ms var(--ease-expo) both paused; }
+    .once .tile :is(.r-item, .s-row, .b-row) { animation: set-in 520ms var(--ease-out) both paused; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(1) { animation-delay: 120ms; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(2) { animation-delay: 180ms; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(3) { animation-delay: 240ms; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(4) { animation-delay: 300ms; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(5) { animation-delay: 360ms; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(6) { animation-delay: 420ms; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(7) { animation-delay: 480ms; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(8) { animation-delay: 540ms; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(9) { animation-delay: 600ms; }
+    .once .tile :is(.r-item, .s-row, .b-row):nth-of-type(10) { animation-delay: 660ms; }
+    .once .tile .c-card { animation: side-in 800ms var(--ease-expo) 150ms both paused; }
+    .once .tile .b-btn { animation: fade-on 600ms ease 500ms both paused; }
+    .once .tile :is(.r-chip, .c-btn.big, .s-btn) { animation: press-s 420ms var(--ease-in-out) 900ms both paused; }
+    .once .play, .once .play *, .once .play::before, .once .play::after, .once .play *::before, .once .play *::after { animation-play-state: running !important; }
+  }
+}
+
+/* satellites name their entrance so the wide-screen scroll rule can add its own timeline beside it */
+.st-home > .vid { --sat-in: side-in; --sat-t: 900ms; --sat-d: 480ms; }
+.st-sites > .mini-app { --sat-in: slip-out; --sat-t: 820ms; --sat-d: 1380ms; }
+.st-care > .pdf { --sat-in: pdf-out; --sat-t: 960ms; --sat-d: 980ms; }
+.st-how > .thread { --sat-in: none; }
+
+/* reduced motion keeps colour changes and drops every move */
+@media (prefers-reduced-motion: reduce) {
+  .btn:active, .choice:active span, .mark:hover .dot, .mark:active .dot { transform: none; }
+  .nav a::after { transition: none; }
+}
+
+@keyframes word-up { from { transform: translateY(118%) rotate(5deg); } }
+@keyframes lift { from { transform: translateY(22px); } }
+@keyframes arrive { from { opacity: 0; transform: translateY(12px); } }
+@keyframes obj-in { from { opacity: 0; transform: translateY(56px) scale(0.96); } }
+@keyframes side-in { from { opacity: 0; transform: translateX(44px) rotate(3deg); } }
+@keyframes slip-out { from { opacity: 0; transform: translate(-40px, 16px) scale(0.96); } }
+@keyframes mail-in { from { opacity: 0; transform: translateY(-36px) scale(0.98); } }
+@keyframes pdf-out { from { opacity: 0; transform: translate(-80px, -64px) scale(0.72) rotate(-6deg); } }
+@keyframes fade-on { from { opacity: 0.35; } }
+@keyframes dot-on { from { opacity: 0; transform: scale(0.8); } }
+@keyframes drop { from { opacity: 0; transform: translateY(-14px); } }
+@keyframes pop { from { opacity: 0; transform: scale(0.86); } }
+@keyframes grow { from { transform: scaleX(0); } }
+@keyframes press { 0%, 100% { transform: none; } 45% { transform: scale(0.92); } }
+@keyframes press-s { 0%, 100% { scale: 1; } 50% { scale: 0.93; } }
+@keyframes tick { from { opacity: 0; transform: scale(0.8); } }
+@keyframes bubble { from { opacity: 0; transform: translateY(12px) scale(0.9); } }
+@keyframes check { from { opacity: 0; transform: rotate(45deg) scale(0.8); } }
+@keyframes roll-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-100%); } }
+@keyframes roll-in { from { opacity: 0; transform: translateY(100%); } }
+@keyframes tube-on { 0% { opacity: 0; } 22% { opacity: 0.85; } 30% { opacity: 0.1; } 46% { opacity: 1; } 54% { opacity: 0.35; } 70%, 100% { opacity: 1; } }
+@keyframes tip-back { to { translate: 0 64px; rotate: x 9deg; scale: 0.96; } }
+@keyframes rise-past { to { translate: 0 -110px; } }
+@keyframes set-in { from { opacity: 0; transform: translateX(-14px); } }
+@keyframes row-in { from { opacity: 0; transform: translateX(32px); } }
+@keyframes vid-open { from { transform: scale(0.86) rotate(-3deg); } }
+@keyframes code-in { from { clip-path: inset(0 0 100% 0); transform: translateX(24px); } }
+@keyframes sheet-up { from { transform: translateY(46%); } }
+@keyframes tile-scroll { from { translate: 0 72px; } }
