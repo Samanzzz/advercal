@@ -1,0 +1,8 @@
+:root { --ground: #ffffff; --ink: #0a0a0a; --cal: #000; }
+html, body { margin: 0; background: #fff; }
+.og { width: 1200px; height: 630px; display: grid; grid-template-columns: 1fr 470px; align-items: center; padding: 0 0 0 64px; box-sizing: border-box; overflow: hidden; }
+.og .mark svg { height: 104px; width: auto; }
+.og .line { font-family: var(--display); font-weight: 800; font-size: 54px; line-height: 0.95; letter-spacing: -0.02em; margin-top: 36px; max-width: 12.5em; }
+.og .r { display: flex; gap: 16px; transform: rotate(-6deg) translateX(40px); }
+.og .phone { width: 160px; flex: none; }
+.og .phone:nth-child(2) { transform: translateY(-60px); }

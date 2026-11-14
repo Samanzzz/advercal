@@ -1,0 +1,118 @@
+/* Direction C, the inbound home page. Night ground in every scheme, the promise, then the work moving at once. */
+:root {
+  color-scheme: dark;
+  --ground: #0c0b0a; --ground-2: #191715; --ink: #f4f1ea; --ink-2: #bcb6aa; --cal: #f4f1ea;
+  --act: #ffc701; --act-hover: #ffd640; --on-act: #0c0b0a; --focus: #ffc701;
+  --field: #ffc701; --on-field: #0c0b0a;
+}
+
+/* Header: plain and solid, stays at the top so Write to us is always one tap away. */
+.top { position: sticky; top: 0; z-index: 5; background: var(--ground); }
+.top .bar { flex-wrap: nowrap; }
+.top nav { display: none; }
+.top .act { margin-left: auto; }
+@media (min-width: 900px) {
+  .top nav { display: flex; order: 0; flex-basis: auto; margin-left: auto; gap: 28px; }
+  .top .act { margin-left: 8px; }
+}
+
+.acts { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.mail { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; font-size: 1rem; }
+
+/* Hero: the promise at poster size, then the lineup of working sites. */
+.hero { padding-top: 12px; }
+.hero-top { display: grid; gap: 20px; }
+.hero h1 { font-size: clamp(min(2.75rem, 13vw), 12vw, 8rem); line-height: 0.88; letter-spacing: -0.035em; }
+.hero h1 .ln { display: block; overflow: visible clip; padding-block: 0.04em 0.08em; margin-block: -0.04em -0.08em; }
+.hero h1 .ln > span { display: inline-block; }
+.lede { font-size: 1.125rem; max-width: 30em; }
+.hero-copy { display: grid; gap: 18px; }
+
+.lineup { margin-top: 32px; }
+.rail { list-style: none; margin: 0; padding: 4px var(--gutter) 8px; display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+.card { flex: 0 0 auto; width: min(64vw, 270px); scroll-snap-align: start; display: grid; gap: 12px; align-content: start; }
+.cap { font-size: 0.9375rem; line-height: 1.45; color: var(--ink-2); }
+.cap strong { display: block; font-family: var(--display); font-weight: 800; font-size: 1.625rem; line-height: 1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 4px; }
+.cap .where { color: var(--ink); font-weight: 500; }
+
+@media (min-width: 900px) {
+  .hero-top { gap: 28px; }
+  .hero h1 { grid-column: 1 / -1; font-size: min(7.4vw, 15svh); }
+  .lede { font-size: 1.25rem; }
+  .hero-copy { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 48px; }
+  .lineup { margin-top: 28px; }
+  .rail { overflow: visible; scroll-snap-type: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2.2vw; padding-inline: var(--gutter); max-width: 1520px; margin-inline: auto; }
+  .card { width: auto; }
+  .card .phone { max-height: 64svh; margin-inline: auto; }
+  /* A lineup at different heights, like people at a bar. */
+  .card:nth-child(2) { transform: translateY(48px); } .card:nth-child(3) { transform: translateY(12px); }
+  .card:nth-child(4) { transform: translateY(64px); } .card:nth-child(5) { transform: translateY(28px); }
+  .lineup { padding-bottom: 64px; }
+}
+
+/* A laptop's view of one site. */
+.wide { margin-block: 96px 0; }
+.wide .screen { border-radius: 14px; }
+.wide .tag { position: absolute; left: 0; top: 0; z-index: 1; margin: 0; padding: 8px 12px; font-size: 0.875rem; font-weight: 500; background: rgb(0 0 0 / 0.72); color: #fff; border-bottom-right-radius: 10px; }
+@media (min-width: 900px) { .wide { margin-top: 140px; } .wide .screen { border-radius: 22px; } }
+
+/* On every site: the field of the wordmark's yellow. */
+.every { background: var(--field); color: var(--on-field); padding-block: 88px; margin-top: 96px; --act: #0c0b0a; --act-hover: #2a2825; --on-act: #ffc701; --focus: #0c0b0a; }
+.every h2 { font-size: clamp(min(2.5rem, 12vw), 10vw, 7.5rem); margin-bottom: 36px; }
+.every dl { margin: 0 0 40px; display: grid; gap: 28px; }
+.every dt { font-family: var(--display); font-weight: 800; font-size: clamp(min(1.75rem, 9vw), 7vw, 3.75rem); line-height: 0.95; letter-spacing: -0.02em; }
+.every dd { margin: 8px 0 0; font-size: 1.125rem; max-width: 26em; }
+@media (min-width: 900px) {
+  .every { padding-block: 140px; margin-top: 140px; }
+  .every dl { grid-template-columns: 1fr 1fr; gap: 56px 6vw; }
+}
+
+/* Working with us: the owner's side, in order. */
+.with-us { padding-block: 96px 24px; display: grid; gap: 32px; }
+.with-us h2 { font-size: clamp(min(2.5rem, 12vw), 10vw, 7.5rem); }
+.with-us ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.with-us li { font-family: var(--display); font-weight: 800; font-size: clamp(min(1.375rem, 7vw), 4.6vw, 3.5rem); line-height: 1.04; letter-spacing: -0.02em; }
+.with-us li:nth-child(odd) { color: var(--ink); }
+.with-us li:nth-child(even) { color: var(--ink-2); }
+@media (min-width: 900px) { .with-us { padding-top: 160px; grid-template-columns: minmax(0, 0.8fr) 1.2fr; align-items: start; } .with-us h2 { position: sticky; top: 100px; } }
+
+.close { padding-block: 120px 72px; display: grid; gap: 28px; }
+.close h2 { font-size: clamp(min(3rem, 13vw), 12vw, 11rem); line-height: 0.88; letter-spacing: -0.035em; }
+
+.foot { display: grid; gap: 20px; padding-bottom: 20px; }
+.foot .wrap { display: grid; gap: 10px; }
+.mark.big { display: block; padding-block: 24px 8px; }
+.mark.big svg { width: 100%; height: auto; }
+
+/* Arrival: the promise rises, the lineup steps up one site at a time. End states are the plain styles. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1 .ln > span { animation: rise 900ms var(--ease-expo) both; }
+  .hero h1 .ln:nth-child(2) > span { animation-delay: 80ms; }
+  .card .phone { animation: step 1000ms var(--ease-expo) both; }
+  .card:nth-child(1) .phone { animation-delay: 160ms; } .card:nth-child(2) .phone { animation-delay: 240ms; }
+  .card:nth-child(3) .phone { animation-delay: 320ms; } .card:nth-child(4) .phone { animation-delay: 400ms; }
+  .card:nth-child(5) .phone { animation-delay: 480ms; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Phone rail: the card in the middle comes forward as it is swiped. */
+    @media (max-width: 899px) {
+      .card { animation: front linear both; animation-timeline: view(inline); }
+    }
+    /* Wide screens: the lineup evens out as the page scrolls away from it. */
+    @media (min-width: 900px) {
+      .card:nth-child(n+2) { animation: even linear both; animation-timeline: scroll(root); animation-range: 0 60svh; }
+    }
+    .wide .screen { animation: open linear both; animation-timeline: view(); animation-range: entry 10% cover 45%; }
+    .mark.big path { animation: set linear both; animation-timeline: view(); transform-box: fill-box; }
+    .mark.big .la { animation-range: entry 0% entry 70%; } .mark.big .ld { animation-range: entry 8% entry 76%; }
+    .mark.big .lv { animation-range: entry 16% entry 82%; } .mark.big .le { animation-range: entry 24% entry 88%; }
+    .mark.big .lr { animation-range: entry 32% entry 94%; } .mark.big .lcal { animation-range: entry 40% entry 100%; }
+  }
+}
+@keyframes rise { from { transform: translateY(102%) rotate(3deg); } }
+@keyframes step { from { transform: translateY(90px) scale(0.96); opacity: 0; } }
+@keyframes front { 0%, 100% { transform: scale(0.92); } 45%, 55% { transform: none; } }
+@keyframes even { to { transform: none; } }
+@keyframes open { from { transform: scale(0.86); border-radius: 36px; } }
+@keyframes set { from { transform: translateY(60%); } }

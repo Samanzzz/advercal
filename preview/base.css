@@ -1,0 +1,86 @@
+/* Shared by preview/a.html and preview/b.html: faces, the wordmark, the clip frames, the one action. */
+@font-face { font-family: "Poppins"; font-weight: 400; font-style: normal; font-display: swap; src: url("../assets/fonts/poppins-regular.woff2") format("woff2"); }
+@font-face { font-family: "Poppins"; font-weight: 500; font-style: normal; font-display: swap; src: url("../assets/fonts/poppins-medium.woff2") format("woff2"); }
+@font-face { font-family: "League Spartan"; font-weight: 800; font-style: normal; font-display: swap; src: url("../assets/fonts/league-spartan-800.woff2") format("woff2"); }
+/* Metric stand-ins so lines keep their breaks when Poppins swaps in. */
+@font-face { font-family: "Poppins Fallback"; src: local("Arial"), local("Helvetica Neue"), local("Helvetica"); size-adjust: 110%; ascent-override: 95%; descent-override: 32%; line-gap-override: 9%; }
+@font-face { font-family: "Spartan Fallback"; font-weight: 800; src: local("Arial Bold"), local("Arial-BoldMT"), local("Helvetica Neue Bold"); size-adjust: 95%; ascent-override: 74%; descent-override: 23%; line-gap-override: 0%; }
+
+:root {
+  /* The wordmark's own colours, sampled from Sam's PNG. */
+  --mark-a: #aa2121; --mark-d: #5d17eb; --mark-v: #ffc701; --mark-e: #1eb955; --mark-r: #006eff; --mark-cal: #000000;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-press: 140ms; --t-hover: 180ms; --t-ui: 240ms;
+  --gutter: 16px;
+  --text: "Poppins", "Poppins Fallback", system-ui, sans-serif;
+  --display: "League Spartan", "Spartan Fallback", system-ui, sans-serif;
+  color-scheme: light dark;
+}
+@media (min-width: 768px) { :root { --gutter: 32px; } }
+@media (min-width: 1100px) { :root { --gutter: 40px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; font-family: var(--text); font-size: 1.0625rem; line-height: 1.55; background: var(--ground); color: var(--ink); overflow-x: clip; }
+img, video, svg { display: block; max-width: 100%; }
+a { color: inherit; text-underline-offset: 0.18em; text-decoration-thickness: 1.5px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 800; margin: 0; letter-spacing: -0.02em; line-height: 0.92; text-wrap: balance; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+.skip { position: absolute; left: var(--gutter); top: 8px; z-index: 10; background: var(--ink); color: var(--ground); padding: 12px 18px; border-radius: 999px; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; white-space: nowrap; }
+.skip:focus { clip-path: none; width: auto; height: auto; }
+.wrap { padding-inline: var(--gutter); max-width: 1520px; margin-inline: auto; }
+
+/* Wordmark. Inline SVG so "Cal" can follow the ink in dark mode. */
+.mark { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+.mark svg { height: 30px; width: auto; }
+.mark .la { fill: var(--mark-a); } .mark .ld { fill: var(--mark-d); } .mark .lv { fill: var(--mark-v); }
+.mark .le { fill: var(--mark-e); } .mark .lr { fill: var(--mark-r); } .mark .lcal { fill: var(--cal); }
+
+/* Header: the name, a few plain links, the one action. */
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 24px; padding-block: 10px; }
+.bar nav { order: 3; flex-basis: 100%; display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+.bar nav a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; font-size: 0.9375rem; font-weight: 500; text-decoration: none; white-space: nowrap; }
+.bar nav a:hover { text-decoration: underline; }
+.bar nav a.more { display: none; }
+@media (min-width: 600px) { .bar nav a.more { display: inline-flex; } }
+.bar .act { margin-left: auto; }
+@media (min-width: 900px) {
+  .bar nav { order: 0; flex-basis: auto; margin-left: auto; gap: 28px; }
+  .bar .act { margin-left: 8px; }
+  .mark svg { height: 34px; }
+}
+
+/* The one action. */
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px; border-radius: 999px; font: 500 1rem/1 var(--text); text-decoration: none; background: var(--act); color: var(--on-act); transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease; }
+.btn:active { transform: scale(0.97); }
+@media (hover: hover) { .btn:hover { background: var(--act-hover); } }
+.btn.small { min-height: 44px; padding: 0 18px; font-size: 0.9375rem; }
+
+/* A clip in a phone we drew: plain rounded slab, no device details. */
+.phone { position: relative; aspect-ratio: 390 / 844; border-radius: 13% / 6%; background: #0c0c0c; padding: 3.2%; box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08) inset; }
+.phone video, .phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 10.5% / 4.9%; background: #1a1a1a; }
+.screen { position: relative; aspect-ratio: 1280 / 800; background: #1a1a1a; overflow: clip; }
+.screen video, .screen img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Pause control, added by work.js only when clips play. */
+.hold { position: absolute; right: 10px; bottom: 10px; width: 50px; height: 50px; border-radius: 999px; border: 0; padding: 0; display: grid; place-items: center; background: rgb(0 0 0 / 0.62); color: #fff; cursor: pointer; transition: transform var(--t-press) var(--ease-out), opacity var(--t-hover) ease; opacity: 0.85; }
+.hold:hover { opacity: 1; }
+.hold:active { transform: scale(0.94); }
+.hold svg { width: 16px; height: 16px; fill: currentColor; }
+.hold .i-play { display: none; }
+.hold[aria-pressed="true"] .i-play { display: block; }
+.hold[aria-pressed="true"] .i-pause { display: none; }
+
+.foot { padding-block: 48px 40px; font-size: 0.9375rem; }
+.foot > * { width: 100%; }
+.foot .credits { font-size: 0.8125rem; line-height: 1.5; color: var(--ink-2); max-width: 70ch; }
+.foot .credits a { color: inherit; }
+.addr a { font-size: 1rem; }
+.addr a, .foot p { overflow-wrap: normal; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 1ms !important; }
+}
