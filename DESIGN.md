@@ -1,70 +1,88 @@
 # Design
 
 ## Product
-advercal.com, the website of AdverCal, a web studio run by three engineers who have worked at Apple and Amazon and studied at UC San Diego and the University of Pennsylvania. It speaks to owners and managers of restaurants, bars, clubs, clinics and other local businesses anywhere in the US. They read it on a phone, often between services, and should leave knowing what they would get, that they own it, and how to write to us.
+advercal.com, the website of AdverCal, a web studio run by three engineers who have worked at Apple and Amazon and studied at UC San Diego and the University of Pennsylvania. It speaks to owners and managers of bars, restaurants, cafés, salons, clinics and other local businesses anywhere in the US. They arrive on their own, mostly on a phone, and should leave wanting to book a free consultation. The site is the studio's inbound engine and never describes how the studio sells.
 
 ## Stack
-Plain static HTML and CSS served by GitHub Pages from `main` (`CNAME` is `advercal.com`). One stylesheet, `assets/site.css`. Two scripts, both from our own origin and loaded with `defer`: `assets/motion.js` on every page (about 1 KB; it only runs the play-once fallback described under Motion) and `assets/site.js` on `contact.html` for the form. The contact form posts to Web3Forms (`https://api.web3forms.com/submit`); without JavaScript it is a plain POST that Web3Forms redirects to `thanks.html` (same-domain redirect, allowed on the free plan), and with JavaScript it posts with fetch, builds the subject from the choices and shows the sent or error state in place. Every page reads correctly without the script. Each page carries its own strict CSP in a meta tag, with `script-src 'self'` and no inline script or style attributes.
+Plain static HTML, CSS and a little JavaScript served by GitHub Pages from `main` (`CNAME` is `advercal.com`). No build and no framework.
+- `assets/site.css` on every page: faces, tokens, the wordmark, header, action, closing band, footer, dock and the motion they share.
+- One sheet per page for its drawn object and sections: `home.css` (index), `build.css` (services), `care.css`, `how.css`, `contact.css` (contact and thanks).
+- `assets/page.js` on every page, `defer`, about 2 KB: the booking link, the dock, the loops and the play-once fallback.
+- `assets/site.js` on `contact.html` only: the form. Without JavaScript the form is a plain POST to Web3Forms (`https://api.web3forms.com/submit`), which redirects to `thanks.html`. With it, the subject is built from the choices and the sent or error state shows in place.
+- Every page reads in full without JavaScript. Each carries its own CSP in a meta tag allowing only what it loads: `default-src 'none'`, `'self'` for scripts, styles, fonts and images, `connect-src 'none'` and `form-action 'none'`, except contact, which allows `https://api.web3forms.com` for both. No inline script or style attribute anywhere.
+- The booking link lives in one place: `const CAL_URL = ''` at the top of `assets/page.js`. Every button marked `data-cal` follows it; until it is set they go to `mailto:advercal.co@gmail.com?subject=Free%20consultation`.
 
 ## Canon
-Its own system, with Apple's Human Interface Guidelines as the reference for access minimums (contrast, target size, text scaling). The writing rules are the studio's house rules, checked with `node tools/writing.mjs --page <file>` from a WebDog checkout.
+Its own system, with Apple's Human Interface Guidelines as the reference for access minimums (contrast, target size, text scaling). The art direction was dealt by the taste skill (`loud-flat-poster`, seed 1044887177) with the brand's palette and type kept. The writing rules are the studio's house rules, checked with `node tools/writing.mjs --page <file>` from a WebDog checkout.
+
+## Direction
+A loud flat poster of a night street: each kind of place lights up in one of the wordmark's colours and runs its own drawn site while it is on screen. Every page leads with one drawn object that performs a real moment from an owner's day, on its own field colour, and none repeats another's layout.
 
 ## Tokens
-All in `:root` at the top of `assets/site.css`, with dark values under `prefers-color-scheme: dark`.
-- Color, light: ground `#f2f3f0`, band `#e4e8e2`, surface `#ffffff`, ink `#141815`, secondary ink `#454d47` and `#5c645e`, line `#d0d5cd`, accent bottle green `#1d5a44`.
-- Color, dark: ground `#101311`, band `#181d1a`, surface `#1d2320`, ink `#e8ece9`, secondary ink `#b2bbb5` and `#959e98`, line `#2d3530`, accent mint `#84c9a9`.
-- Type: Switzer (Fontshare) for everything we say, with metric-matched fallback faces in front of it (`Switzer Fallback` on Helvetica Neue, `Switzer Arial` on Arial; size-adjust per weight band measured on the site's own text with `ss01`), so lines keep their breaks when Switzer swaps in. Zodiak appears only inside the drawn restaurant site, as that business's own face. Sizes: caption 14px, body 17px, sub 22px, h2 28 to 38px, h1 38 to 64px.
-- Spacing: 4, 8, 12, 16, 24, 32, 48, 64, 96. Gutter 16px on phones, 32 from 768, 40 from 1100.
-- Radius: 10px controls, 18px panes.
-- Motion: curves `--ease-out` `cubic-bezier(0.23, 1, 0.32, 1)` for things arriving and controls, `--ease-in-out` `cubic-bezier(0.77, 0, 0.175, 1)` for things that travel or sweep while seen, `--ease-expo` `cubic-bezier(0.16, 1, 0.3, 1)` for headline words and drawn objects of 600 ms or longer. Durations `--t-press` 140ms, `--t-hover` 180ms, `--t-ui` 240ms, `--t-word` 640ms, `--t-scene` 1000ms. Words stagger 34ms, rows and items 50 to 120ms. Anything tied to the scroll is linear, since the scroll is its easing.
+All in `:root` of `assets/site.css`. One scheme, the night ground, in every colour scheme.
+- Ground night `#0c0b0a`, ink `#eeeeec`, secondary ink `#c4bdb1`. Bone `#f1f0ec` with ink `#0c0b0a` and `#3d3a35`.
+- Fields are the wordmark's colours: yellow `#ffc701` (also the action, hover `#ffd640`), red `#aa2121` with cream ink `#fff3e6`, green `#1eb955` with night ink, blue `#006eff` with white ink. The wordmark's violet `#5d17eb` stays in the wordmark.
+- Page fields: home night with the five place bands, What we build blue, Monthly care green, How we work red, Contact yellow, Sent night.
+- Type: League Spartan 800 for display, Poppins 400 and 500 for text, both OFL, self-hosted in `assets/fonts/` behind metric-matched fallbacks. Sizes: small 15px, body 17px, lead 22px, heading 32px, section display up to 72px, page headlines 13 to 17vw on phones and up to 10 to 13rem wide, the closing word up to 30rem. Headlines are two authored lines.
+- Shape: square corners on every button, panel, slip and form field. Folder tabs are cut with `clip-path` shoulders. Drawn objects mark their root `data-ui` and keep their own colours, rules and the neon's glow.
+- Layout: gutter 16, 32 from 768, 40 from 1100; 12 columns on wide screens; a band strip is 56px; the header is 70px and sticky from 900px. Below 900px the action is docked at the bottom of the screen.
+- Motion: curves `--ease-out` `cubic-bezier(0.23, 1, 0.32, 1)`, `--ease-in-out` `cubic-bezier(0.77, 0, 0.175, 1)`, `--ease-expo` `cubic-bezier(0.16, 1, 0.3, 1)`. Loops of 6 to 20 s. Scroll pieces are linear on view timelines.
 
 ## Assets and licenses
-Switzer and Zodiak from Fontshare under the ITF Free Font License. No photographs and no third-party images. Banned: SF Pro, New York, SF Mono, SF Symbols and anything else from Apple's Design Resources, including traced device bezels.
+League Spartan and Poppins under the OFL. No photographs and no third-party images; every picture is drawn in HTML, CSS or SVG. The sharing image `assets/og.png` is rendered from `.design-refs/og/og-card.html`. Banned: SF Pro, New York, SF Mono, SF Symbols and anything else from Apple's Design Resources, including traced device bezels.
 
 ## Surfaces
-Home, What we build (`services.html`), Monthly care (`care.html`), How we work (`how.html`), Contact (`contact.html`), and `thanks.html` after a plain form post. Each page leads with one drawn object: a bar's site on a phone with its open-now line and tonight's lineup (home), a clinic site in a browser with the bookings screen of the app behind it (What we build), the monthly report email and its PDF, the private preview and a change request, the contact form. Under the home hero, six capability tiles each draw a different kind of object: a lineup list from a ticketing service, an open-now sign, a bookings web app, a vertical video, a search result with its structured data, and a sheet of booking and ordering buttons. Every page moves, top to bottom; the Motion section lists each piece. Each settles on its end state, which is also what reduced motion and a page without JavaScript show.
+Home (`index.html`), What we build (`services.html`), Monthly care (`care.html`), How we work (`how.html`), Contact (`contact.html`), and Sent (`thanks.html`, `noindex`) after a plain form post. The header names the four pages and carries Schedule a free consultation; the footer repeats them with the address and the wordmark at full width.
+- Home: the neon open sign under "Get them in the door."; five places filed as folders: a bar's lineup on a dark phone (yellow), a salon's booking sheet on a light phone (bone), a café's front door with its sign and an order on a phone (green), a restaurant's printed menu card with a confirmation ticket (red), a clinic in a browser (blue); the slips every site hands out; the closing band.
+- What we build: a restaurant's booking form whose booking lands at the top of its own bookings app; on the site as a big list in the wordmark's colours; beyond the site as four panels of unequal width on yellow; each kind of place on bone; before launch and after.
+- Monthly care: the November 1 email with its PDF report ticking through six checks; the check as six big ticks; fixes and small updates on bone.
+- How we work: a private preview on a phone where a message asking for new Sunday hours changes the site; five steps as lines stepping down the bone ground; two pledges side by side.
+- Contact: the form as a bone slip fed up into the yellow field, with square choices; the sent state in place.
+- Sent: a receipt printed from its slot.
+The preview pages (directions A to D and the old sharing card) left the public tree on 2026-11-14 and are kept in `.design-refs/preview-archive/`.
 
 ## Motion
-Every animation runs from a start state to the plain CSS, so reduced motion and a page without JavaScript show the same still as the last frame. Hidden or moved start states exist only inside `prefers-reduced-motion: no-preference`. Scroll-linked pieces use CSS scroll timelines (`view-timeline` names on the object, tile or row they follow). Where a browser has none, `motion.js` adds `.once` to the page and `.play` to each piece as it arrives, and the same keyframes play once by time. Frames use `overflow: clip`, never `hidden`, because a hidden overflow is a scroll container and freezes the timelines inside it.
+Every animation runs from a start state to the plain CSS, so reduced motion and a page without JavaScript show the same still as the last frame. Hidden or moved start states exist only inside `prefers-reduced-motion: no-preference`. Scroll-linked pieces use CSS view timelines; where a browser has none, `page.js` adds `.once` to the page and `.play` to each piece as it arrives, and the same keyframes play once by time. Loops run only while their object is on screen: `page.js` starts them from the first frame when it arrives and pauses them when it leaves. Frames use `overflow: clip`, never `hidden`. Only transform and its individual properties, opacity and filter animate.
 
-Motion belongs to the drawn objects and to the hero headline. Section headings, fact and step text and the closing bands stay still; only the rule above each fact and step draws. Rejected after review on 2026-11-10: headings scrubbed word by word with the scroll and closing statements lit word by word, which left copy half risen or dim wherever a reader stopped scrolling.
-
-Hero headline words rise inside a box that clips only vertically (`.wd`, `overflow: visible clip`, padded past ascenders and descenders) rather than a `clip-path`, so the mask costs nothing, the line never moves and a word that cannot fit at 200% text breaks instead of losing letters. Each split h1 carries its plain text in `aria-label` and hides the word boxes from assistive tech. The one `clip-path` is on the home search tile's structured data: the code is type, and wiping it top to bottom reads as the data being written, which a transform cannot show. Only transform and its individual properties, opacity and that one clip-path animate.
-
-On phones (below 768px) the hero objects sit low on or below the first screen, so each object (the phone, a window, the PDF, the bookings app, the video, the chat) carries its own view timeline and its pieces play in their wide-screen order as that object comes up the screen. The tip-back and rise-past on leaving the hero run only from 768px up.
-
-| What | How | End state | Reduced motion |
+| Where | What | How | End state |
 | --- | --- | --- | --- |
-| Hero headline, every page | Each word rises from below its own line with a 5 degree tilt, 640ms expo, 34ms apart, from first paint | Words at rest; readable by about 500ms | Still |
-| Hero lede | Rises 22px, transform only, 800ms from 140ms | At rest; it is the LCP element and is painted at once | Still |
-| Hero actions, contact address, thanks button | Fade and rise 12px, 560ms from 320ms | At rest | Shown |
-| Hero drawn object (phone or window) | Rises 56px from 96% scale and fades in, 1000ms, on load at every width | At rest | Shown |
-| Hero object on scroll, 768px and up | Leaving the first screen, it tips back 9 degrees and sinks 64px at 96% scale (`--hero` exit range) | Plain at the top of the page, where it is read | Still |
-| Hero satellites on scroll, 768px and up | Video, bookings app, PDF and chat rise 110px past the main object while the hero leaves | Plain at the top | Still |
-| Home phone | Open now line fades up and its dot lights; tonight's two acts drop in with their Tickets buttons popping; this week's rows follow; the video slides in from the right and plays its three scenes once. By time from 480ms on wide screens, by the phone's and the video's own scroll on phones | Venue site complete, video on its last scene | Complete still |
-| What we build window | The clinic page lays in as its heading bars grow and its hours and service rows arrive; Book a visit is pressed; the bookings app slips out from behind and its rows land | Page and app complete | Complete still |
-| Monthly care email | The email lands from above and its lines and attachment arrive; the PDF comes out of the attachment and each check ticks, ending on 1 fixed | Email and PDF complete | Complete still |
-| How we work preview | The owner's message pops from its corner, our reply follows, then the new Sunday hours highlight sweeps across | Thread and highlight shown | Shown |
-| Contact form | The form rises under the headline, its four questions arrive 80ms apart, then Send | Form at rest | Shown |
-| Facts and steps | The rule above each row draws left to right as the row comes up; the rule is a zero-height border so forced colours keep it | Rules drawn | Drawn |
-| Lineup tile | Last night drops off and the list moves up | Tonight on top | Same |
-| Open-now tile | The clock rolls from 4:59 to 5:00, Closed goes out, then Open now flickers on like a tube, the one flicker on the site | Open now | Same |
-| Web app tile | Booking rows arrive from the right one by one | All rows | Same |
-| Video tile | The frame opens from 86 percent with a small turn, then the scenes play | Last scene | Same |
-| Search tile | The result rises; the structured data wipes in top to bottom while sliding left | Both shown | Same |
-| Buttons tile | The sheet rises like an action sheet, its three buttons arrive, then Reserve a table is pressed | Sheet at rest | Same |
-| Kinds of site tiles | The client's page scrolls up inside its frame; its rows set in; the bar's Book a table fades up; the clinic's hours card slides in; each other tile's main button is pressed | Plain frame | Same |
-| Buttons | Press scales to 97 percent in 140ms; hover darkens the fill; quiet buttons darken their ring | Rest | Colour only |
-| Nav links | Accent bar under the link grows from the left on hover in 240ms; the current page keeps it | Bar on current page | Bar, no growth |
-| Links | Underline goes from faint to full on hover | Full on hover | Same |
-| Wordmark | The dot in the mark lifts 2px on hover and narrows on press | Rest | Still |
-| Contact choices | Press scales to 96 percent; a ticked box's check fades in from 80 percent | Checked | Checked |
-| Sent message | The sent panel fades and rises 12px when it replaces the form | Shown | Shown |
+| Every page | Header wordmark | Each letter drops in with a small overshoot, 860ms, 70ms apart; Cal slides in after | Whole mark |
+| Every page | Headline | Each line rises from behind its own baseline, 900ms expo, from 90ms and 200ms | At rest |
+| Every page | Lede | Rises 28px from 300ms, transform only; the LCP element on most pages | At rest |
+| Every page | Closing band | The letters of Book rise one by one on scroll, the arrow turns up and right; hover swaps yellow and night | At rest |
+| Every page | Footer wordmark | Its letters rise one by one as it enters, done well before the page ends | Whole mark |
+| Every page | Docked action, under 900px | A full-width bar at the bottom; it steps down while the hero action, the closing band, the footer or a form is on screen | Shown |
+| Home | Neon sign | Swings in on its hook, the frame buzzes on, then o, p, e, n; the frame hums and the e stutters on loops; it tips as the hero leaves while the headline lines part | Lit |
+| Home | Folders, wide screens | Sticky bands slide over each other and keep their tabs showing | All tabs filed |
+| Home | Each object on scroll | Swings up from a tilt at 90% scale as it enters; its tab rises | At rest |
+| Home | Bar, 9 s loop | The sign buzzes, the acts arrive, the late set sells out, the board turns over | Lineup with Tickets |
+| Home | Salon, 9 s loop | The booking sheet rises, 1:00 is picked, Book is pressed, confirmed, the sheet goes down | Sheet up, confirmed |
+| Home | Café, 8 s loop | The clock turns 6:59 to 7:00, the door sign flips to Open, an order goes in and is ready | Open, 7:00 |
+| Home | Restaurant | The menu rolls on a 20 s loop; every 6 s Reserve is pressed and the confirmation ticket comes in | Menu, ticket |
+| Home | Clinic, 8 s loop | Book a visit is pressed, the next opening slides in, Thursday is picked | Next opening shown |
+| Home | Slips | Rise from below the section edge at different speeds | Standing, two tilted |
+| What we build | The pair, 8 s loop | The form fills, Book is pressed, the booking drops into the top of the app and the other rows move down | Booking on top |
+| What we build | Lists and panels | Each big list name and kind slides in from the left; the four panels rise one after another | At rest |
+| Monthly care | The report, 10 s loop | The email lands, the PDF slides out, the checks tick down the list and the fixed one is stamped | Report complete |
+| Monthly care | The check | Each tick turns and grows in as its row enters | Ticks shown |
+| How we work | The preview, 9 s loop | The owner's message pops, our reply follows, Sunday's hours change and a highlight sweeps the row | New hours highlighted |
+| How we work | Steps | Each line slides in from the right along the staircase, done once it is fully on screen | In place |
+| Contact | The form | The slip feeds up into the field and its questions arrive 80ms apart; choices press to 96%; the sent heading stamps in | Form at rest |
+| Sent | Receipt | Prints down out of its slot | Receipt shown |
+| Every page | Buttons and links | Press scales to 97%; nav links grow an underline; the current page keeps it | Rest |
 
 ## Writing
-Sentence case everywhere. Plain sentences an owner would repeat to a friend. State only what the studio really does; no client names, counts, testimonials, prices or pricing terms; pricing is a conversation.
+Sentence case everywhere. Plain sentences an owner would repeat to a friend. A page talks about its subject, never about itself. State only what the studio really does; no client names, counts, testimonials, prices or pricing terms; pricing is a conversation. The address is advercal.co@gmail.com.
 
 ## Decisions
+- 2026-11-14, direction D ships on every page (Jeevan approved it). `index.html` is the D home page and the inner pages are rebuilt in the same look, each with its own drawn object and motion moment. The old bottle-green look, Switzer and Zodiak, `assets/demo.js` and `assets/motion.js` are gone; the preview pages moved to `.design-refs/preview-archive/`.
+- 2026-11-14, the five home objects are five different things (Jeevan, after review): a phone with a lineup board, a phone with a booking sheet, a front door with a sign and an order phone, a printed menu card, and a browser. Rejected: one card recoloured five times.
+- 2026-11-14, lines about the page are cut (Jeevan named "Your kind of place" and "Tonight, on the first screen."). Headings name the places and what owners get.
+- 2026-11-14, the email is advercal.co@gmail.com everywhere (Jeevan). advercalcompany@gmail.com is wrong and no shipped file carries it.
+- 2026-11-14, the main action is "Schedule a free consultation" and replaces every "Write to us" (Jeevan: "write to us is dumb"). It goes to `CAL_URL` once set, and to the mailto until then. On phones it is docked at the bottom, in thumb reach.
+- 2026-11-14, no status dots anywhere (Jeevan: "the stupid green dot for open time"). Open now is type or a sign: the neon sign, the café's door sign, the bar's "Open tonight until 2 AM".
+- 2026-11-14, What we build keeps its capabilities and the third-party services it names, and drops the drawn prices and the price wording.
+- 2026-11-14, direction D replaces C as the proposed home page (Jeevan on C: "so much slop otherwise, no animation"). Rejected with C: drawn phone mockups, rows of rounded objects, pill buttons, the yellow feature list, quiet motion. D's motion is meant to be seen in the first second and on every screen.
 - 2026-11-14, nationwide, any local business (Jeevan). AdverCal's own copy names no city: the home page speaks to the places people go, from the bar on the corner to the salon down the street, matching the audience under Product.
 - 2026-11-14, no real venues or third-party photos on advercal.com; drawn demo sites instead (Jeevan). The home page draws five sites in HTML and CSS, each a different object at its own size with its own motion: a bar with tonight's lineup and Tickets, a restaurant with its menu and Reserve, a café with its hours and Order ahead, a salon booking sheet, and a clinic in a browser with Book a visit. Names are generic ("Your bar", "Your restaurant"), there are no prices, counts or quotes, and no photographs, so nothing needs a credit. The five bar clips, their captions and the credit line are gone, and so are the clip-based directions A and B.
 - 2026-11-14: advercal.com is the inbound engine; its copy says we make amazing websites and never describes the outbound tactic (Jeevan). Owners of bars, restaurants, clubs and local businesses arrive on their own and should get, in about five seconds, that we make great sites, see the work moving and know how to write to us. Jeevan rejected A and B ("both are stupid") because their copy described how we sell. `preview/c.html` replaces them: the promise "Websites that make people want to walk in.", drawn sites showing what an owner's site can do, what every site carries in an owner's terms, working with us from the owner's side, and Write to us in the sticky header, the hero, the yellow section and the close. C is on a night ground in every colour scheme, since the work is bars at night. A and B keep their layouts with the tactic copy removed.
@@ -87,19 +105,29 @@ Sentence case everywhere. Plain sentences an owner would repeat to a friend. Sta
 - 2026-11-03: rejected looks, kept rejected: the old blue and postcard mosaic, cream with a serif and clay accent, near-black with an acid accent, rows of identical cards.
 
 ## Open items
-1. The sharing image `assets/og.png` (1200x630) is rendered from an HTML card in the site's own look: wordmark, home headline and the drawn restaurant phone. Rerender it when the home headline changes.
+1. Set `CAL_URL` in `assets/page.js` when the cal.com booking page exists.
 2. The repo is public because free GitHub Pages needs it. Moving to a private repo means Cloudflare Pages or a paid GitHub plan.
-3. The contact form will not send until `YOUR_WEB3FORMS_ACCESS_KEY` in `contact.html` (the hidden `access_key` input, its only place) is replaced with the real Web3Forms access key. Until then every submission fails and the page offers the email address.
+3. Rerender `assets/og.png` from `.design-refs/og/og-card.html` (1200x630, reduced motion) when the home headline changes.
 4. Ask Sam for the original logo file (vector or the design tool's source) to confirm League Spartan Bold and the letter spacing; the SVG is fitted to a 111px PNG.
 5. `tools/capture-work.mjs` is unused since 2026-11-14 and kept in case real, signed work is shown later.
 
 ## Work clips
-Unused since 2026-11-14. `node tools/capture-work.mjs [slug ...] [--kind phone|desk]` records the bar sites in the site-motion worktree as short muted MP4 and WebM loops with posters in `assets/work/`; `CONF` in the script holds each site's scroll distance and poster time. Nothing on the site uses it now.
+Unused since 2026-11-14. `node tools/capture-work.mjs [slug ...] [--kind phone|desk]` records the bar sites in the site-motion worktree as short muted MP4 and WebM loops with posters in `assets/work/`. Nothing on the site uses it now.
 
 ## How to check
-Open the pages from disk or any static server. Check at 390, 768 and 1280, light and dark, keyboard focus, and the contact page with JavaScript off. Run the writing check on every page.
+Serve the worktree and open each page at 320, 390, 768 and 1440, with reduced motion and with JavaScript off. From a site-motion checkout, on a temp folder where the page is `index.html`: `tools/writing.mjs --page`, `tools/whole.mjs check` and `tools/speed.mjs check`. Test the contact form only against a stub: replace `fetch` before the page loads and block `api.web3forms.com`.
 
 ## Checked
+CHECKED_NEW
+
+2026-11-14, direction D (`preview/d.html`):
+- Frames at 390 by 844 and 1440 by 900: first screen at 150, 500 and 1200 ms, scroll strips, the end of the page, and each drawn site at 0.3 to 7.4 s after it arrives, in `.design-refs/redo/d-*`.
+- Phone speed (`speed.mjs check`, Slow 4G, CPU 4x): LCP 0.7 s, the lede; CLS 0. Desktop LCP 0.1 s, CLS 0. 77 KB in 7 requests before the first scroll.
+- `whole.mjs check` on a copy as `index.html`: every mark and word whole at 320, 390, 768, 1280 and 320 with 200% text, no sideways scroll.
+- Writing check 0. Taste inspector 0 FAIL with covered-text waived for the sticky folders and the docked action; its warnings for no photographs or footage stand by decision.
+- A fresh review (opus, frames only) scored slop 5 and motion 6. Changed after it: the neon got tube cores and uneven letters, the header links and both actions show from the first frame, the hero action sits under the lede, the phone hero gap closed so the first tab clears the docked bar, the bar's late set sells out and the restaurant's table is confirmed mid-loop, and the footer sets the address at lead size with the wordmark at full width. Kept by decision: the mailto until `CAL_URL` exists, the Gmail address, the drawn sites with generic names, the footer credentials line.
+- Not looked at: Safari and Firefox, real phones, a screen reader pass, D with JavaScript off beyond the CSS default (loops run, the dock shows).
+
 2026-11-14, page C with drawn sites (`preview/c.html`):
 - Frames at 320, 390 and 1440 and scroll strips at 390 and 1440 in `.design-refs/redo/c-*`.
 - Phone speed (390 by 844 at 3x, Slow 4G, CPU 4x, cache off, three runs): LCP 0.54 to 0.56 s, the lede; CLS 0.

@@ -1,0 +1,268 @@
+/* Home: the neon sign, five places filed as folders in the wordmark's colours, each drawn as its own object that
+   runs its own scene, and the slips every site hands out. */
+
+/* Hero: the promise at poster size and the sign coming on. */
+.hero { padding-block: 20px 8px; display: grid; gap: 24px; align-content: start; }
+.hero h1 { font-size: 17vw; line-height: 0.9; letter-spacing: -0.045em; }
+.sign { width: 100%; max-width: 460px; }
+.neon { width: 100%; height: auto; overflow: visible; rotate: -3deg; }
+.neon g, .neon rect, .neon circle, .neon path { fill: none; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; }
+.neon .off { stroke: #2b2420; }
+.neon .lit .t-o { stroke: #ff7663; } .neon .lit .t-n { stroke: #ef5340; }
+.neon .core * { fill: none; filter: none; stroke-width: 2.4; }
+.neon .core .t-frame { stroke: #d6e7ff; } .neon .core g * { stroke: #ffe1da; }
+.neon .t-frame { stroke: #4d9bff; filter: drop-shadow(0 0 4px #006eff) drop-shadow(0 0 14px rgb(0 110 255 / 0.7)); } /* taste-skill-ignore: a drawn neon sign (data-ui), the glow is its light */
+.neon .t-word { stroke: #ff6a55; filter: drop-shadow(0 0 4px #ff3b2a) drop-shadow(0 0 16px rgb(255 59 42 / 0.7)); } /* taste-skill-ignore: a drawn neon sign (data-ui), the glow is its light */
+.hero-foot { display: grid; gap: 20px; }
+.hero-act { display: none; }
+@media (min-width: 768px) {
+  .hero { grid-template-columns: auto minmax(0, 1fr); column-gap: 4vw; row-gap: 48px; padding-block: 3svh 8px; }
+  .hero h1 { font-size: clamp(5rem, 11.4vw, 13rem); grid-column: 1; grid-row: 1; }
+  .sign { grid-column: 2; grid-row: 1; align-self: center; justify-self: end; max-width: 560px; }
+  .hero-foot { grid-column: 1 / -1; grid-row: 2; display: grid; justify-items: start; gap: 24px; }
+  .hero-act { display: inline-flex; }
+}
+
+/* The places: each a flat band in one of the wordmark's colours, filed like folders on wide screens. */
+.stack > h2 { font-size: min(2rem, 8.5vw); padding-block: 40px 20px; max-width: 1520px; }
+@media (min-width: 900px) { .stack > h2 { padding-block: 72px 24px; } }
+.band { --strip: 56px; --bg: var(--yellow); --fg: var(--night); --tab-bg: var(--night); --tab-fg: var(--yellow); background: var(--bg); color: var(--fg); }
+.b-salon { --bg: var(--bone); --tab-fg: var(--bone); }
+.b-cafe { --bg: var(--green); --tab-fg: var(--green); }
+.b-food { --bg: var(--red); --fg: var(--cream); --tab-bg: var(--cream); --tab-fg: var(--red); }
+.b-clinic { --bg: var(--blue); --fg: #ffffff; --tab-bg: #ffffff; --tab-fg: var(--blue); }
+.strip { min-height: var(--strip); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 4px 16px; }
+.tab { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 22px 2px; min-width: 180px; max-width: 100%; background: var(--tab-bg); color: var(--tab-fg); font-size: 1.375rem; clip-path: polygon(0 100%, 0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% 100%); }
+.cat { align-self: center; padding-top: 12px; font-size: 0.9375rem; font-weight: 500; text-align: right; }
+.body { display: grid; gap: 28px; padding-block: 28px 56px; }
+.say .big { font: 800 1.75rem/1.02 var(--display); letter-spacing: -0.02em; text-wrap: balance; }
+.say p + p { margin-top: 12px; max-width: 34ch; }
+@media (min-width: 900px) {
+  .band { position: sticky; top: var(--top); min-height: calc(100svh - var(--top)); --avail: calc(100svh - var(--top) - var(--strip) - 64px); }
+  .b-bar { --top: var(--hdr); } .b-salon { --top: calc(var(--hdr) + var(--strip)); } .b-cafe { --top: calc(var(--hdr) + var(--strip) * 2); }
+  .b-food { --top: calc(var(--hdr) + var(--strip) * 3); } .b-clinic { --top: calc(var(--hdr) + var(--strip) * 4); }
+  .tab { min-width: 260px; }
+  .body { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: center; padding-block: 24px 40px; }
+  .obj { grid-column: 1 / 8; grid-row: 1; justify-self: center; }
+  .say { grid-column: 9 / 13; grid-row: 1; }
+  .flip-side .obj { grid-column: 6 / 13; } .flip-side .say { grid-column: 1 / 5; }
+  .say .big { font-size: 2rem; }
+}
+
+/* Drawn objects. Each keeps its own business's colours; text is sized by the object's own width. */
+.obj { position: relative; container-type: inline-size; margin-inline: auto; }
+.obj p, .obj ul { margin: 0; }
+.obj .go { display: inline-flex; align-items: center; justify-content: center; padding: 0.7em 1.1em; font-weight: 500; line-height: 1; }
+.phone { aspect-ratio: 9 / 18.5; background: #0b0a0a; border-radius: 12% / 5.8%; padding: 3.4%; }
+.phone .scr { height: 100%; border-radius: 9.5% / 4.4%; overflow: clip; display: flex; flex-direction: column; gap: 3.2cqi; padding: 12cqi 7cqi 8cqi; font-size: clamp(12px, 4.8cqi, 17px); line-height: 1.3; }
+.o-bar, .o-salon { width: min(78vw, 330px); }
+@media (min-width: 900px) { .o-bar, .o-salon { width: calc(min(var(--avail), 700px) * 9 / 18.5); } }
+
+/* Bar: a dark phone with the lineup board. */
+.o-bar { rotate: -3deg; }
+.o-bar .scr { background: #141010; color: #f3e9dc; }
+.o-bar .neonword { font: 800 15cqi/1 var(--display); color: #ffd84a; letter-spacing: -0.01em; }
+.o-bar .open { font: 800 1.1em/1.1 var(--display); color: #ffd84a; }
+.o-bar .hd { font: 800 13cqi/0.95 var(--display); margin-top: 3cqi; letter-spacing: -0.02em; }
+.o-bar .board { display: grid; gap: 1.8cqi; }
+.o-bar .board li { display: grid; grid-template-columns: 3.9em 1fr auto; align-items: center; gap: 2cqi; padding: 2.6cqi 2.4cqi 2.6cqi 3cqi; background: #241c18; }
+.o-bar .board b { color: #ffd84a; font-weight: 500; }
+.o-bar .board i { font-style: normal; font-weight: 500; font-size: 0.86em; padding: 0.45em 0.7em; background: #ffc701; color: #141010; white-space: nowrap; }
+.o-bar .board i.sold { display: grid; padding: 0; background: none; }
+.o-bar .sold span { grid-area: 1 / 1; padding: 0.45em 0.7em; text-align: center; }
+.o-bar .sold .t1 { background: #ffc701; color: #141010; }
+.o-bar .sold .t2 { background: #3a302a; color: #ffd84a; opacity: 0; }
+.o-bar .foot-note { margin-top: auto; color: #b9aa98; font-size: 0.9em; }
+
+/* Salon: a light phone; the booking sheet rises from the bottom. */
+.o-salon { rotate: 3deg; }
+.o-salon .phone { background: #2b2220; }
+.o-salon .scr { background: #f6ece8; color: #171313; padding-bottom: 0; }
+.o-salon .name { font: 800 9cqi/1 var(--display); color: #b4504b; }
+.o-salon .hd { font: 800 12cqi/0.95 var(--display); letter-spacing: -0.02em; }
+.o-salon .sub { color: #6e5d58; }
+.o-salon .sheet { margin: auto -7cqi 0; padding: 6cqi 7cqi 8cqi; display: grid; gap: 3cqi; background: #171313; color: #f6ece8; border-radius: 6cqi 6cqi 0 0; }
+.o-salon .sh { font: 800 8cqi/1 var(--display); }
+.o-salon .days { display: flex; flex-wrap: wrap; gap: 1.6cqi; }
+.o-salon .days span { padding: 0.45em 0.8em; background: #2a2322; font-weight: 500; font-size: 0.92em; }
+.o-salon .days .on { background: #f6ece8; color: #171313; }
+.o-salon .slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6cqi; }
+.o-salon .slots li { position: relative; display: grid; place-items: center; padding-block: 0.7em; background: #2a2322; font-weight: 500; }
+.o-salon .slots em { position: absolute; inset: 0; display: grid; place-items: center; font-style: normal; background: #f2b8b5; color: #171313; }
+.o-salon .go { background: #f2b8b5; color: #171313; }
+.o-salon .done { background: #f6ece8; color: #171313; padding: 0.8em 1em; font-weight: 500; }
+
+/* Café: the front door with its sign on the glass, the clock, and an order on a phone. */
+.o-cafe { width: min(100%, 460px); aspect-ratio: 1 / 1.08; }
+.o-cafe > * { font-size: clamp(12px, 3.6cqi, 17px); line-height: 1.25; }
+@media (min-width: 900px) { .o-cafe { width: min(100%, calc(var(--avail) / 1.08)); } }
+.o-cafe .door { position: absolute; left: 0; bottom: 0; width: 64%; height: 100%; padding: 5cqi 5cqi 10cqi; background: #0f3a22; }
+.o-cafe .glass { height: 100%; display: flex; flex-direction: column; align-items: center; gap: 4cqi; padding: 6cqi 4cqi; background: #c9e6d4; color: #0f3a22; text-align: center; }
+.o-cafe .decal { font: 800 8cqi/1 var(--display); letter-spacing: -0.01em; }
+.o-cafe .hanger { position: relative; padding-top: 7cqi; perspective: 600px; }
+.o-cafe .hanger::before { content: ""; position: absolute; top: 0; left: 50%; width: 0.5cqi; height: 7cqi; background: #0f3a22; }
+.o-cafe .card { display: grid; transform: rotateY(180deg); transform-style: preserve-3d; transform-origin: 50% 0; }
+.o-cafe .face { grid-area: 1 / 1; backface-visibility: hidden; font: 800 9cqi/1 var(--display); padding: 0.32em 0.5em 0.22em; }
+.o-cafe .shut { background: #ffffff; color: #6d7a71; }
+.o-cafe .open { background: #aa2121; color: #ffffff; transform: rotateY(180deg); }
+.o-cafe .hours { margin-top: auto; display: grid; gap: 1cqi; font-weight: 500; }
+.o-cafe .clock { position: absolute; top: 2%; left: 106%; width: 42%; display: grid; padding: 2.4cqi 0; background: #0c0b0a; color: #ffd84a; font: 800 7cqi/1 var(--display); text-align: center; }
+.o-cafe .clock span { grid-area: 1 / 1; }
+.o-cafe .c1 { opacity: 0; }
+.o-cafe .mini { position: absolute; right: 0; bottom: 0; width: 41%; aspect-ratio: 9 / 17; padding: 3%; background: #0b0a0a; border-radius: 12% / 6%; rotate: 5deg; }
+.o-cafe .mini .scr { height: 100%; overflow: clip; border-radius: 9% / 4.5%; display: flex; flex-direction: column; gap: 2cqi; padding: 6cqi 2.8cqi; background: #fffdf6; color: #0f3a22; font-size: clamp(12px, 3cqi, 15px); }
+.o-cafe .mini .name { font: 800 1.2em/1 var(--display); color: #12823a; }
+.o-cafe .mini .row { padding-bottom: 1cqi; box-shadow: 0 1px 0 #d9e6dd; } /* taste-skill-ignore: a drawn site's own rule (data-ui) */
+.o-cafe .mini .go { background: #1eb955; color: #06200f; padding: 0.6em 0.5em; }
+.o-cafe .mini .toast { background: #0f3a22; color: #ffffff; padding: 0.6em 0.5em; font-weight: 500; text-align: center; }
+
+/* Restaurant: a printed menu card, the dishes rolling, a confirmation ticket. */
+.o-food { width: min(100%, 420px); }
+.o-food > * { font-size: clamp(12px, 4cqi, 18px); line-height: 1.3; }
+@media (min-width: 900px) { .o-food { width: min(100%, calc(var(--avail) * 0.8)); } }
+.o-food .menu-card { width: 84%; aspect-ratio: 3 / 4; display: flex; flex-direction: column; align-items: center; gap: 2.4cqi; padding: 8cqi 6cqi 6cqi; background: #f4f0eb; color: #2a1712; text-align: center; rotate: -2deg; }
+.o-food .name { font: 800 8.4cqi/1 var(--display); color: #aa2121; }
+.o-food .sub { color: #6b4f45; font-size: 0.86em; }
+.o-food .menu { flex: 1; width: 100%; min-height: 0; overflow: clip; }
+.o-food .roll li { padding-block: 1.3cqi; font-weight: 500; }
+.o-food .roll .sec { font: 800 1.15em/1 var(--display); color: #aa2121; padding-top: 3.4cqi; }
+.o-food .go { background: #aa2121; color: #ffffff; }
+.o-food .ticket { position: absolute; right: 0; top: 34%; width: 38%; padding: 3.4cqi; background: #0c0b0a; color: #fff3e6; font-size: clamp(12px, 3.6cqi, 16px); line-height: 1.35; rotate: 5deg; }
+.o-food .ticket b { color: #ffc701; font-weight: 500; }
+
+/* Clinic: a browser window, Book a visit, then the next opening. */
+.o-clinic { width: 100%; }
+.o-clinic .window { font-size: clamp(12px, 4cqi, 18px); line-height: 1.3; }
+@media (min-width: 900px) { .o-clinic { width: min(100%, calc(var(--avail) * 1.45)); } }
+.o-clinic .window { background: #ffffff; color: #0f2540; border-radius: 10px; overflow: clip; }
+.o-clinic .bar { padding: 2.4cqi 3cqi; background: #dfe6ef; }
+.o-clinic .bar span { display: block; width: 62%; margin-inline: auto; padding: 0.4em 1em; background: #ffffff; border-radius: 999px; color: #46586f; font-size: 0.8em; text-align: center; }
+.o-clinic .page { display: grid; gap: 5cqi; padding: 6cqi 5.5cqi 7cqi; }
+.o-clinic .lead { display: grid; gap: 2cqi; justify-items: start; }
+.o-clinic .name { font: 800 6cqi/1 var(--display); color: #006eff; }
+.o-clinic .hd { font: 800 11cqi/0.95 var(--display); letter-spacing: -0.02em; margin-bottom: 1cqi; }
+.o-clinic .sub { color: #46586f; }
+.o-clinic .go { background: #006eff; color: #ffffff; margin-top: 2cqi; }
+.o-clinic .next { display: grid; gap: 2.6cqi; align-content: start; padding: 4.5cqi; background: #eaf2ff; }
+.o-clinic .nh { font-weight: 500; color: #46586f; }
+.o-clinic .week { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.2cqi; }
+.o-clinic .week span { position: relative; display: grid; place-items: center; padding-block: 0.7em; background: #ffffff; font-weight: 500; font-size: 0.9em; }
+.o-clinic .week em { position: absolute; inset: 0; display: grid; place-items: center; font-style: normal; background: #006eff; color: #ffffff; }
+.o-clinic .when { font: 800 7.4cqi/1.05 var(--display); }
+@container (min-width: 560px) {
+  .o-clinic .window { font-size: clamp(12px, 2.2cqi, 18px); }
+  .o-clinic .page { grid-template-columns: 1.1fr 1fr; gap: 5cqi; align-items: center; padding: 5cqi; }
+  .o-clinic .name { font-size: 3.4cqi; } .o-clinic .hd { font-size: 6.4cqi; } .o-clinic .when { font-size: 4.4cqi; } .o-clinic .next { padding: 3.4cqi; }
+  .o-clinic .bar { padding: 1.4cqi 2cqi; }
+}
+
+/* What people check first: two statements over the night ground, and the slips every site hands out. */
+.slips { padding-top: 96px; overflow: clip; view-timeline: --slips; }
+.words { display: grid; gap: 20px; }
+.words h2 { font-size: min(2.75rem, 11vw); }
+.words p { font-size: 1.375rem; line-height: 1.3; max-width: 30ch; }
+.words b { font-weight: 500; }
+.row { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 12px 10px; margin-top: 56px; padding-inline: var(--gutter); }
+.slip { display: grid; align-content: start; gap: 6px; padding: 16px 14px 18px; background: var(--bone); color: var(--night); font-size: 0.9375rem; line-height: 1.35; }
+.slip .st { font-weight: 500; font-size: 1rem; }
+.slip .dv { letter-spacing: 0.02em; color: #5f5a54; }
+.s2 { rotate: 1.5deg; margin-top: 28px; } .s4 { margin-top: 28px; } .s5 { rotate: -2deg; margin-bottom: -40px; padding-bottom: 72px; } .s6 { margin-top: 28px; margin-bottom: -40px; padding-bottom: 72px; }
+@media (max-width: 22em) { .row { grid-template-columns: minmax(0, 1fr); } .row .slip { margin-top: 0; } }
+@media (min-width: 900px) {
+  .slips { padding-top: 160px; }
+  .words { grid-template-columns: 1fr 1fr; column-gap: 6vw; row-gap: 28px; padding-left: 14vw; }
+  .words h2 { grid-column: 1 / -1; font-size: clamp(3rem, 5vw, 4.5rem); }
+  .words p { font-size: 2rem; line-height: 1.2; }
+  .row { display: flex; align-items: flex-end; margin-top: 96px; gap: 12px; }
+  .slip { flex: 1 1 0; height: var(--h); margin: 0 0 -40px; padding: 20px 18px 0; }
+  .s1 { --h: 36svh; } .s2 { --h: 46svh; } .s3 { --h: 30svh; } .s4 { --h: 42svh; } .s5 { --h: 34svh; } .s6 { --h: 44svh; }
+}
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .sign { transform-origin: 50% 0; animation: hang 1300ms var(--ease-out) 160ms both; }
+  .neon .t-frame { animation: buzz 900ms linear 520ms both, hum 7s linear 1500ms infinite; }
+  .neon .t-o { animation: buzz 700ms linear 760ms both; } .neon .t-p { animation: buzz 700ms linear 860ms both; }
+  .neon .t-e { animation: buzz 700ms linear 960ms both, stutter 5s linear 1800ms infinite; } .neon .t-n { animation: buzz 700ms linear 1060ms both; }
+
+  /* Bar, 9 s: the sign buzzes, the acts arrive, the late set sells out, the board turns over. */
+  .o-bar .neonword { animation: buzz-loop 9s linear infinite; }
+  .o-bar .open, .o-bar .hd, .o-bar .board li { animation: turn 9s var(--ease-out) infinite both; }
+  .o-bar .open { animation-delay: 250ms; } .o-bar .hd { animation-delay: 400ms; }
+  .o-bar .board li:nth-child(1) { animation-delay: 650ms; } .o-bar .board li:nth-child(2) { animation-delay: 800ms; }
+  .o-bar .board li:nth-child(3) { animation-delay: 950ms; } .o-bar .board li:nth-child(4) { animation-delay: 1100ms; }
+  .o-bar .sold .t1 { animation: sell-out 9s linear infinite both; } .o-bar .sold .t2 { animation: sell-in 9s var(--ease-out) infinite both; }
+
+  /* Salon, 9 s: the sheet rises, 1:00 is picked, Book, confirmed, the sheet goes down. */
+  .o-salon .sheet { animation: sheet 9s var(--ease-out) infinite both; }
+  .o-salon .slots em { animation: pick 9s var(--ease-out) infinite both; }
+  .o-salon .go { animation: press-early 9s var(--ease-out) infinite both; }
+  .o-salon .done { animation: toast 9s var(--ease-out) infinite both; }
+
+  /* Café, 8 s: the clock turns 7, the sign flips to Open, an order goes in and is ready. */
+  .o-cafe .card { animation: flip 8s var(--ease-out) infinite both; }
+  .o-cafe .c1 { animation: tick-out 8s var(--ease-out) infinite both; }
+  .o-cafe .c2 { animation: tick-in 8s var(--ease-out) infinite both; }
+  .o-cafe .mini .go { animation: press-late 8s var(--ease-out) infinite both; }
+  .o-cafe .mini .toast { animation: toast 8s var(--ease-out) infinite both; }
+
+  /* Restaurant: the menu rolls on a 20 s loop; every 6 s Reserve is pressed and the ticket comes in. */
+  .o-food .roll { animation: roll 20s linear infinite; }
+  .o-food .go { animation: press-mid 6s var(--ease-out) 600ms infinite both; }
+  .o-food .ticket { animation: ticket 6s var(--ease-out) 600ms infinite both; }
+
+  /* Clinic, 8 s: Book a visit, the next opening slides in, Thursday is picked. */
+  .o-clinic .go { animation: press-first 8s var(--ease-out) infinite both; }
+  .o-clinic .next { animation: next 8s var(--ease-expo) infinite both; }
+  .o-clinic .week em { animation: pick 8s var(--ease-out) 900ms infinite both; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero { view-timeline: --hero; }
+    .l1 { animation: part-l linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; }
+    .l2 { animation: part-r linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; }
+    .neon { animation: tip linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; }
+    .obj { animation: swing linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    .tab { animation: tab-up linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    .say .big { animation: lift linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    .words p { animation: lift linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
+    .slip { animation: feed linear both; animation-timeline: --slips; }
+    .s1 { animation-range: cover 22% cover 46%; } .s2 { animation-range: cover 26% cover 50%; } .s3 { animation-range: cover 30% cover 52%; }
+    .s4 { animation-range: cover 24% cover 48%; } .s5 { animation-range: cover 32% cover 54%; } .s6 { animation-range: cover 28% cover 51%; }
+  }
+}
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .once .band.play .obj { animation: swing 1000ms var(--ease-expo) both; }
+    .once .band.play .tab { animation: tab-up 600ms var(--ease-out) both; }
+    .once .band.play .say .big { animation: lift 800ms var(--ease-expo) 200ms both; }
+    .once .slips.play .words p { animation: lift 800ms var(--ease-expo) both; }
+    .once .slips.play .slip { animation: feed 1000ms var(--ease-expo) both; }
+    .once .slips.play .s2 { animation-delay: 80ms; } .once .slips.play .s3 { animation-delay: 160ms; } .once .slips.play .s4 { animation-delay: 60ms; } .once .slips.play .s5 { animation-delay: 200ms; } .once .slips.play .s6 { animation-delay: 120ms; }
+  }
+}
+
+@keyframes hang { 0% { transform: translateY(-36%) rotate(-14deg); opacity: 0; } 45% { transform: rotate(6deg); opacity: 1; } 68% { transform: rotate(-3deg); } 86% { transform: rotate(1.2deg); } 100% { transform: none; } }
+@keyframes buzz { 0% { opacity: 0; } 12% { opacity: 1; } 18% { opacity: 0.1; } 32% { opacity: 1; } 38% { opacity: 0.3; } 52%, 100% { opacity: 1; } }
+@keyframes hum { 0%, 71% { opacity: 1; } 72% { opacity: 0.25; } 73% { opacity: 1; } 75% { opacity: 0.5; } 76%, 100% { opacity: 1; } }
+@keyframes stutter { 0%, 40% { opacity: 1; } 41% { opacity: 0.1; } 44% { opacity: 0.9; } 45% { opacity: 0.15; } 49%, 100% { opacity: 1; } }
+@keyframes part-l { to { translate: -22vw 0; } }
+@keyframes part-r { to { translate: 22vw 0; } }
+@keyframes tip { to { rotate: 16deg; translate: 0 18%; } }
+@keyframes tab-up { from { translate: 0 100%; } }
+@keyframes feed { from { translate: 0 75%; } }
+@keyframes buzz-loop { 0% { opacity: 0.12; } 3% { opacity: 1; } 4% { opacity: 0.2; } 6% { opacity: 1; } 7% { opacity: 0.45; } 9%, 100% { opacity: 1; } }
+@keyframes turn { 0% { opacity: 0; transform: translateY(60%); } 6% { opacity: 1; transform: none; } 88% { opacity: 1; transform: none; } 94%, 100% { opacity: 0; transform: translateY(-50%); } }
+@keyframes sell-out { 0%, 54% { opacity: 1; } 56%, 90% { opacity: 0; } 92%, 100% { opacity: 1; } }
+@keyframes sell-in { 0%, 54% { opacity: 0; transform: scale(1.25); } 58%, 90% { opacity: 1; transform: none; } 92%, 100% { opacity: 0; } }
+@keyframes sheet { 0% { transform: translateY(100%); } 9%, 92% { transform: none; } 100% { transform: translateY(100%); } }
+@keyframes press-mid { 0%, 44% { transform: none; } 47% { transform: scale(0.88); } 51%, 100% { transform: none; } }
+@keyframes press-late { 0%, 46% { transform: none; } 49% { transform: scale(0.9); } 53%, 100% { transform: none; } }
+@keyframes press-early { 0%, 30% { transform: none; } 33% { transform: scale(0.94); } 37%, 100% { transform: none; } }
+@keyframes press-first { 0%, 8% { transform: none; } 11% { transform: scale(0.9); } 15%, 100% { transform: none; } }
+@keyframes roll { to { transform: translateY(-50%); } }
+@keyframes ticket { 0%, 50% { opacity: 0; transform: translateX(40%) rotate(12deg); } 57%, 90% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: translateY(20%); } }
+@keyframes flip { 0%, 20% { transform: rotateY(0deg) rotate(0deg); } 27% { transform: rotateY(198deg) rotate(4deg); } 31% { transform: rotateY(172deg) rotate(-2deg); } 35%, 90% { transform: rotateY(180deg) rotate(0deg); } 97%, 100% { transform: rotateY(360deg) rotate(0deg); } }
+@keyframes tick-out { 0%, 16% { opacity: 1; transform: none; } 21%, 95% { opacity: 0; transform: translateY(-70%); } 100% { opacity: 1; transform: none; } }
+@keyframes tick-in { 0%, 16% { opacity: 0; transform: translateY(70%); } 21%, 93% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; transform: translateY(70%); } }
+@keyframes next { 0%, 12% { opacity: 0; transform: translateX(28%); } 22%, 90% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: translateX(-8%); } }

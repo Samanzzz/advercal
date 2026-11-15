@@ -1,0 +1,73 @@
+/* Contact and thanks: the yellow field, and the form as a paper slip fed up into it. Form fields keep their own
+   borders, as real form fields should. */
+
+.ct { background: var(--yellow); color: var(--night); --focus: var(--night); --btn: var(--night); --btn-hover: #2a2825; --on-btn: var(--yellow); }
+.ct-in { display: grid; gap: 32px; padding-block: 28px 64px; }
+.ct h1 { font-size: 13vw; line-height: 0.9; letter-spacing: -0.045em; }
+.ct-intro { display: grid; gap: 18px; align-content: start; }
+.alt { font-size: 1rem; max-width: 34em; }
+.alt a { font-weight: 500; overflow-wrap: anywhere; }
+@media (min-width: 900px) {
+  .ct-in { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); column-gap: 5vw; padding-block: 6svh 96px; align-items: start; }
+  .ct h1 { font-size: clamp(4rem, 7vw, 8.5rem); }
+  .ct-intro { position: sticky; top: calc(var(--hdr) + 32px); }
+}
+
+/* The slip. */
+.pane { background: var(--bone); color: var(--night); padding: 24px 18px 28px; }
+@media (min-width: 900px) { .pane { padding: 40px 40px 44px; } }
+.fs { border: 0; margin: 0 0 26px; padding: 0; min-width: 0; }
+.fs legend { padding: 0; margin-bottom: 12px; font: 800 1.5rem/1 var(--display); letter-spacing: -0.01em; }
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choice { position: relative; }
+.choice input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
+.choice span { display: inline-flex; align-items: center; min-height: 46px; padding: 0 16px; background: #ffffff; font-weight: 500; transition: transform 140ms var(--ease-out), background-color 160ms ease, color 160ms ease; }
+.choice input:checked + span { background: var(--night); color: var(--yellow); }
+.choice input[type="checkbox"] + span::before { content: ""; width: 14px; height: 14px; margin-right: 10px; background: #e3e1da; transition: background-color 160ms ease, transform 160ms var(--ease-out); }
+.choice input[type="checkbox"]:checked + span::before { background: var(--yellow); transform: rotate(45deg) scale(0.9); }
+.choice input:focus-visible + span { outline: 3px solid var(--night); outline-offset: 2px; }
+.choice input:active + span { transform: scale(0.96); }
+@media (hover: hover) and (pointer: fine) { .choice input:not(:checked):hover + span { background: #e9e7e0; } }
+.fields { display: grid; gap: 14px; }
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 500; font-size: 0.9375rem; }
+.field input, .field textarea { width: 100%; min-height: 48px; padding: 10px 12px; border: 2px solid #c9c6bd; border-radius: 0; background: #ffffff; color: var(--night); font: 400 1rem/1.4 var(--text); }
+.field textarea { resize: vertical; }
+.field input:focus-visible, .field textarea:focus-visible { outline: 3px solid var(--night); outline-offset: 0; border-color: var(--night); }
+.field input[aria-invalid="true"] { border-color: #aa2121; }
+.field-error { font-size: 0.9375rem; font-weight: 500; color: #8f1717; }
+@media (min-width: 640px) { .fields { grid-template-columns: 1fr 1fr; } .field.wide { grid-column: 1 / -1; } }
+.botcheck { display: none; }
+.form-send { display: grid; gap: 14px; justify-items: start; }
+.form-send .btn { min-width: 160px; }
+.form-status:empty { display: none; }
+.form-status { padding: 12px 14px; background: #f6d4d4; color: var(--night); font-size: 0.9375rem; }
+.form-status a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; overflow-wrap: anywhere; }
+.sent { display: grid; gap: 14px; padding-block: 24px; }
+.sent[hidden] { display: none; }
+.sent h2 { font-size: clamp(2.5rem, 9vw, 4.5rem); }
+.sent h2:focus { outline: none; }
+.form-pane.is-sent form { display: none; }
+
+/* Thanks: the night ground and a receipt fed from its slot. */
+.tx { padding-block: 40px 96px; }
+.tx-in { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; justify-items: start; }
+.receipt p { overflow-wrap: anywhere; }
+.tx h1 { font-size: 15vw; line-height: 0.9; letter-spacing: -0.045em; }
+.slot { width: min(100%, 360px); border-top: 10px solid var(--ink); overflow: clip; }
+.receipt { display: grid; gap: 8px; padding: 22px 20px 26px; background: var(--bone); color: var(--night); }
+.receipt .st { font: 800 2rem/1 var(--display); }
+.receipt .dv { color: #5f5a54; letter-spacing: 0.02em; }
+@media (min-width: 900px) { .tx { padding-block: 10svh 140px; } .tx-in { grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 6vw; } .tx h1 { font-size: clamp(5rem, 10vw, 12rem); } .tx .btn { grid-column: 1; } .slot { grid-column: 2; grid-row: 1 / span 2; } }
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .pane { animation: feed-in 1000ms var(--ease-expo) 260ms both; }
+  .fs, .form-send { animation: lift 800ms var(--ease-expo) both; }
+  .fs:nth-of-type(1) { animation-delay: 520ms; } .fs:nth-of-type(2) { animation-delay: 600ms; } .fs:nth-of-type(3) { animation-delay: 680ms; } .fs:nth-of-type(4) { animation-delay: 760ms; } .form-send { animation-delay: 840ms; }
+  .is-sent .sent h2 { animation: stamp-in 700ms var(--ease-out) both; }
+  .receipt { animation: print 1400ms var(--ease-in-out) 350ms both; }
+}
+@keyframes feed-in { from { transform: translateY(18%) rotate(2deg); } }
+@keyframes stamp-in { 0% { transform: scale(1.6) rotate(-8deg); opacity: 0; } 60% { transform: scale(0.96) rotate(1deg); opacity: 1; } 100% { transform: none; } }
+@keyframes print { from { transform: translateY(-100%); } }

@@ -1,0 +1,110 @@
+/* What we build: a blue field, a booking sent from a site landing in its own app, then the work as a big list,
+   panels of unequal width and the kinds of place. */
+
+.ph { background: var(--blue); color: #ffffff; --focus: #ffffff; }
+.ph-in { display: grid; gap: 28px; padding-block: 28px 56px; }
+.ph h1 { font-size: 15vw; line-height: 0.9; letter-spacing: -0.045em; }
+.ph-copy { display: grid; gap: 20px; justify-items: start; }
+.hero-act { display: none; }
+@media (min-width: 900px) {
+  .ph-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 5vw; row-gap: 40px; padding-block: 6svh 72px; align-items: center; }
+  .ph h1 { font-size: clamp(4.5rem, 8.6vw, 10rem); grid-column: 1; }
+  .ph-copy { grid-column: 1; }
+  .pair { grid-column: 2; grid-row: 1 / span 2; }
+  .hero-act { display: inline-flex; }
+}
+
+/* The pair: the site's booking form in front, the restaurant's bookings app behind and to the right. */
+.pair { position: relative; container-type: inline-size; width: min(100%, 620px); aspect-ratio: 1 / 1.02; justify-self: center; }
+.pair > * { font-size: clamp(12px, 3.6cqi, 17px); line-height: 1.3; }
+.front { position: absolute; left: 0; top: 0; width: 62%; background: #f4f0eb; color: #2a1712; z-index: 2; rotate: -2deg; }
+.front .bar { padding: 2cqi; background: #e2dbd1; }
+.front .bar span { display: block; padding: 0.35em 0.8em; background: #ffffff; border-radius: 999px; color: #6b4f45; font-size: 0.85em; text-align: center; }
+.front .pg { display: grid; gap: 2.4cqi; padding: 5cqi; }
+.front .name { font: 800 7cqi/1 var(--display); color: #aa2121; margin-bottom: 1cqi; }
+.front .field { display: flex; justify-content: space-between; gap: 2cqi; padding: 2cqi 2.6cqi; background: #ffffff; }
+.front .field span { color: #6b4f45; }
+.front .field b { font-weight: 500; }
+.front .go { justify-self: start; padding: 0.7em 1.4em; background: #aa2121; color: #ffffff; font-weight: 500; line-height: 1; }
+.back { position: absolute; right: 0; bottom: 0; width: 66%; padding: 5cqi; background: #0c0b0a; color: #eeeeec; }
+.back .ah { display: flex; justify-content: space-between; align-items: baseline; font: 800 6cqi/1 var(--display); margin-bottom: 3cqi; }
+.back .ah span { font: 500 0.8rem/1 var(--text); font-size: clamp(12px, 3cqi, 15px); color: #c4bdb1; }
+.back .rows { display: grid; gap: 1.6cqi; }
+.back .rows li { display: grid; grid-template-columns: 3.2em 1fr auto; gap: 2cqi; align-items: center; padding: 2.4cqi 2.6cqi; background: #1d1a18; }
+.back .rows b { color: #ffc701; font-weight: 500; }
+.back .rows i { font-style: normal; font-size: 0.86em; padding: 0.3em 0.6em; background: #1eb955; color: #06200f; }
+.back .rows i.w { background: #3a302a; color: #ffd84a; }
+.back .rows .new { background: #2a2420; }
+
+/* On the site: a big plain list on the night ground. */
+.onsite { padding-block: 80px 96px; }
+.onsite h2, .beyond h2, .kinds h2 { font-size: min(2.75rem, 11vw); margin-bottom: 36px; }
+.big-list { display: grid; gap: 28px; }
+.big-list dt { font: 800 clamp(2.5rem, 12vw, 7rem)/0.9 var(--display); letter-spacing: -0.035em; color: var(--yellow); }
+.big-list div:nth-child(2) dt { color: #ff6a55; } .big-list div:nth-child(3) dt { color: var(--green); } .big-list div:nth-child(4) dt { color: #5aa2ff; } .big-list div:nth-child(5) dt { color: var(--bone); } .big-list div:nth-child(6) dt { color: var(--yellow); }
+.big-list dd { margin-top: 10px; max-width: 36ch; }
+@media (min-width: 900px) {
+  .onsite { padding-block: 140px; }
+  .onsite h2, .beyond h2, .kinds h2 { font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 56px; }
+  .big-list div { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); column-gap: 5vw; align-items: end; }
+  .big-list dd { margin: 0 0 0.6em; font-size: 1.125rem; }
+}
+
+/* Beyond the site: four panels of unequal width on the yellow field. */
+.beyond { background: var(--yellow); color: var(--night); padding-block: 80px 96px; }
+.panels { display: grid; gap: 12px; }
+.pn { display: grid; align-content: start; gap: 14px; padding: 28px 22px 40px; }
+.pn h3 { font-size: 2rem; }
+.pn1 { background: var(--night); color: var(--ink); } .pn2 { background: var(--red); color: var(--cream); } .pn3 { background: var(--bone); } .pn4 { background: var(--blue); color: #ffffff; }
+@media (min-width: 900px) {
+  .beyond { padding-block: 140px; }
+  .panels { grid-template-columns: 1.5fr 1fr 1.15fr 0.85fr; align-items: end; }
+  .pn { min-height: 300px; } .pn1 { min-height: 420px; } .pn3 { min-height: 360px; }
+  .pn h3 { font-size: clamp(2rem, 2.6vw, 2.75rem); }
+}
+
+/* Each kind of place: names set large on the bone ground. */
+.kinds { background: var(--bone); color: var(--night); padding-block: 80px 96px; --focus: var(--night); }
+.kind-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+.kd h3 { font-size: min(3.5rem, 9vw); margin-bottom: 12px; }
+.kd p { max-width: 40ch; color: var(--ink-dark-2); }
+@media (min-width: 900px) { .kinds { padding-block: 140px; } .kind-grid { grid-template-columns: 1fr 1fr; gap: 72px 6vw; } .kd:nth-child(even) { margin-top: 96px; } }
+
+/* Before launch and after. */
+.launch { padding-block: 80px; }
+.launch-in { display: grid; gap: 20px; }
+.launch h2 { font-size: min(2.75rem, 11vw); }
+.launch p { font-size: 1.375rem; line-height: 1.35; max-width: 34ch; }
+@media (min-width: 900px) { .launch { padding-block: 140px; } .launch-in { grid-template-columns: 1fr 1fr 1fr; column-gap: 4vw; align-items: start; } .launch p { font-size: 1.5rem; } }
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* The pair, 8 s: the form fills, Book is pressed, the new booking drops into the top of the app and the rest move down. */
+  .pair { animation: swing 1100ms var(--ease-expo) 200ms both; }
+  .front .field b { animation: fill 8s var(--ease-out) infinite both; }
+  .front .field:nth-of-type(2) b { animation-delay: 250ms; } .front .field:nth-of-type(3) b { animation-delay: 500ms; }
+  .front .go { animation: press-at 8s var(--ease-out) infinite both; }
+  .back .rows .new { animation: land 8s var(--ease-expo) infinite both; }
+  .back .rows li:not(.new) { animation: push 8s var(--ease-expo) infinite both; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .big-list dt { animation: from-left linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    .pn { animation: lift-far linear both; animation-timeline: view(); }
+    .pn1 { animation-range: entry 0% entry 60%; } .pn2 { animation-range: entry 10% entry 70%; } .pn3 { animation-range: entry 20% entry 80%; } .pn4 { animation-range: entry 30% entry 90%; }
+    .kd h3 { animation: from-left linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+  }
+}
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .once .reveal.play dt, .once .kd.play h3 { animation: from-left 900ms var(--ease-expo) both; }
+    .once .panels.play .pn { animation: lift-far 900ms var(--ease-expo) both; }
+    .once .panels.play .pn2 { animation-delay: 80ms; } .once .panels.play .pn3 { animation-delay: 160ms; } .once .panels.play .pn4 { animation-delay: 240ms; }
+  }
+}
+@keyframes fill { 0%, 6% { opacity: 0; transform: translateX(-12%); } 12%, 92% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; } }
+@keyframes press-at { 0%, 30% { transform: none; } 33% { transform: scale(0.9); } 37%, 100% { transform: none; } }
+@keyframes land { 0%, 36% { opacity: 0; transform: translate(-60%, -90%) rotate(-6deg) scale(0.9); } 46%, 92% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; } }
+@keyframes push { 0%, 38% { transform: translateY(-100%) translateY(-1.6cqi); } 46%, 100% { transform: none; } }
+@keyframes from-left { from { translate: -18vw 0; } }
+@keyframes lift-far { from { translate: 0 30%; } }
