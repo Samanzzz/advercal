@@ -1,0 +1,89 @@
+/* How we work: a red field where a change asked for in a message lands on the preview, then the steps as lines
+   that step down the page, and two pledges side by side. */
+
+.ph { background: var(--red); color: var(--cream); --focus: var(--cream); }
+.ph-in { display: grid; gap: 24px; padding-block: 28px 64px; }
+.ph h1 { font-size: 15vw; line-height: 0.9; letter-spacing: -0.045em; }
+.hero-act { display: none; justify-self: start; align-self: start; }
+@media (min-width: 900px) {
+  .ph-in { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); grid-template-rows: auto auto 1fr; column-gap: 5vw; row-gap: 28px; padding-block: 6svh 80px; }
+  .ph h1 { font-size: clamp(4.5rem, 9vw, 11rem); }
+  .ph h1, .lede, .hero-act { grid-column: 1; }
+  .preview { grid-column: 2; grid-row: 1 / span 3; }
+  .hero-act { display: inline-flex; }
+}
+
+/* The preview: a phone with the site, and the two messages beside it. */
+.preview { position: relative; container-type: inline-size; width: min(100%, 460px); aspect-ratio: 1 / 1.25; justify-self: center; }
+.preview > * { font-size: clamp(12px, 3.8cqi, 17px); line-height: 1.3; }
+.preview .phone { position: absolute; left: 2%; top: 0; width: 54%; aspect-ratio: 9 / 18.5; padding: 2.2%; background: #0b0a0a; border-radius: 12% / 5.8%; rotate: -3deg; }
+.preview .scr { height: 100%; overflow: clip; border-radius: 9.5% / 4.4%; display: flex; flex-direction: column; gap: 3cqi; padding: 8cqi 4.4cqi; background: #fbf6ee; color: #2a1712; }
+.preview .pv { align-self: start; padding: 0.3em 0.6em; background: #2a1712; color: #fff3e6; font-size: 0.8em; font-weight: 500; }
+.preview .name { font: 800 7.4cqi/1 var(--display); color: #aa2121; margin-top: 2cqi; }
+.preview .hh { font: 800 5cqi/1 var(--display); margin-top: 4cqi; }
+.preview .hrs { display: grid; gap: 1.4cqi; }
+.preview .hrs li { position: relative; display: flex; justify-content: space-between; gap: 2cqi; padding: 2cqi 2.4cqi; background: #f0e6d8; }
+.preview .hrs li > span { position: relative; z-index: 1; }
+.preview .v { display: grid; } .preview .v span { grid-area: 1 / 1; }
+.preview .was { opacity: 0; }
+.preview .hl { position: absolute; inset: 0; background: #ffc701; transform-origin: 0 50%; }
+.msg { position: absolute; right: 0; display: grid; gap: 0.3em; width: 46%; padding: 3.4cqi 4cqi; font-weight: 400; }
+.msg b { font-weight: 500; font-size: 0.85em; }
+.msg.you { top: 30%; background: #ffffff; color: #0c0b0a; }
+.msg.us { top: 60%; background: #0c0b0a; color: #eeeeec; }
+
+/* The steps: five lines stepping down the bone ground. */
+.steps { background: var(--bone); color: var(--night); padding-block: 80px 96px; --focus: var(--night); }
+.steps h2, .pl h2 { font-size: min(2.75rem, 11vw); }
+.steps h2 { margin-bottom: 48px; }
+.stairs { display: grid; gap: 40px; }
+.st .line { font-size: 8.4vw; line-height: 1; letter-spacing: -0.03em; }
+.st p { margin-top: 12px; max-width: 36ch; color: var(--ink-dark-2); }
+.st2 { padding-left: 5vw; } .st3 { padding-left: 10vw; } .st4 { padding-left: 15vw; } .st5 { padding-left: 20vw; }
+.st5 .line { color: var(--red); }
+@media (min-width: 900px) {
+  .steps { padding-block: 140px; }
+  .steps h2, .pl h2 { font-size: clamp(3rem, 5vw, 4.5rem); }
+  .steps h2 { margin-bottom: 80px; }
+  .stairs { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 56px; }
+  .st { padding-left: 0; } .st1 { grid-column: 1 / -1; } .st2 { grid-column: 2 / -1; } .st3 { grid-column: 3 / -1; } .st4 { grid-column: 4 / -1; } .st5 { grid-column: 5 / -1; }
+  .st .line { font-size: clamp(2.25rem, 4.6vw, 4.5rem); white-space: nowrap; }
+  .st p { font-size: 1.125rem; }
+}
+
+/* Two pledges, side by side on wide screens: night and yellow. */
+.pledges { display: grid; }
+.pl { display: grid; align-content: start; gap: 18px; padding: 72px var(--gutter) 88px; }
+.pl p { max-width: 38ch; }
+.pl1 { background: var(--night); }
+.pl2 { background: var(--yellow); color: var(--night); --focus: var(--night); }
+.pl2 p { font-size: 1.375rem; line-height: 1.35; }
+@media (min-width: 900px) { .pledges { grid-template-columns: 1.2fr 1fr; } .pl { padding: 140px max(var(--gutter), 4vw); } .pl p { font-size: 1.125rem; } .pl2 p { font-size: 1.75rem; line-height: 1.25; } }
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* The preview, 9 s: the owner's message pops, our reply follows, Sunday's hours change and the highlight sweeps. */
+  .msg.you { animation: pop 9s var(--ease-out) infinite both; }
+  .msg.us { animation: pop-late 9s var(--ease-out) infinite both; }
+  .preview .was { animation: was 9s linear infinite both; }
+  .preview .now { animation: now 9s var(--ease-out) infinite both; }
+  .preview .hl { animation: sweep 9s var(--ease-in-out) infinite both; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .st .line { animation: step-in linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    .pl > * { animation: lift linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+  }
+}
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .once .st.play .line { animation: step-in 900ms var(--ease-expo) both; }
+    .once .pl.play > * { animation: lift 800ms var(--ease-expo) both; }
+  }
+}
+@keyframes pop { 0%, 8% { opacity: 0; transform: translateY(30%) scale(0.8); } 13%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+@keyframes pop-late { 0%, 38% { opacity: 0; transform: translateY(30%) scale(0.8); } 43%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+@keyframes was { 0%, 46% { opacity: 1; } 48%, 100% { opacity: 0; } }
+@keyframes now { 0%, 47% { opacity: 0; transform: translateY(60%); } 52%, 100% { opacity: 1; transform: none; } }
+@keyframes sweep { 0%, 46% { transform: scaleX(0); opacity: 1; } 54% { transform: scaleX(1); opacity: 1; } 80% { opacity: 1; } 90%, 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes step-in { from { translate: 34vw 0; } }

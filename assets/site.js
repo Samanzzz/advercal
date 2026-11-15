@@ -11,7 +11,7 @@ if (form) {
   const status = document.getElementById("form-status");
   const submit = document.getElementById("form-submit");
   const sent = document.getElementById("form-sent");
-  const address = "advercalcompany@gmail.com";
+  const address = "advercal.co@gmail.com";
 
   form.noValidate = true;
 

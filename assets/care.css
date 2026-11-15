@@ -1,0 +1,81 @@
+/* Monthly care: a green field where the monthly email lands and its report ticks through, then the check as a
+   column of big ticks and the fixes on the bone ground. */
+
+.ph { background: var(--green); color: var(--night); --focus: var(--night); --btn: var(--night); --btn-hover: #2a2825; --on-btn: var(--green); }
+.ph-in { display: grid; gap: 24px; padding-block: 28px 64px; }
+.ph h1 { font-size: 14vw; line-height: 0.9; letter-spacing: -0.045em; }
+.hero-act { display: none; justify-self: start; align-self: start; }
+@media (min-width: 900px) {
+  .ph-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto 1fr; column-gap: 5vw; row-gap: 28px; padding-block: 6svh 80px; }
+  .ph h1 { font-size: clamp(4.5rem, 8.2vw, 10rem); }
+  .ph h1, .lede, .hero-act { grid-column: 1; }
+  .report { grid-column: 2; grid-row: 1 / span 3; }
+  .hero-act { display: inline-flex; }
+}
+
+/* The report: the email card with the PDF sliding out from under it. */
+.report { position: relative; container-type: inline-size; width: min(100%, 600px); aspect-ratio: 1 / 1.12; justify-self: center; }
+.report > * { font-size: clamp(12px, 3.5cqi, 17px); line-height: 1.35; }
+.mail-card { position: absolute; left: 0; top: 0; width: 72%; display: grid; gap: 2.4cqi; padding: 5cqi; background: #ffffff; color: #1b2a22; rotate: -2deg; z-index: 2; }
+.mail-card .subj { font: 800 5.4cqi/1.05 var(--display); }
+.mail-card .from { color: #5b6a61; font-size: 0.9em; }
+.mail-card .att { justify-self: start; padding: 0.5em 0.9em; background: #e8f2ec; font-weight: 500; }
+.pdf { position: absolute; right: 0; bottom: 0; width: 62%; padding: 5cqi; background: #0c0b0a; color: #eeeeec; rotate: 2deg; }
+.pdf .ph2 { font: 800 5.4cqi/1 var(--display); margin-bottom: 3cqi; color: var(--green); }
+.checks { display: grid; gap: 1.4cqi; }
+.checks li { display: flex; justify-content: space-between; gap: 2cqi; padding: 1.8cqi 2.2cqi; background: #1d1a18; }
+.checks b { font-weight: 500; color: var(--green); white-space: nowrap; }
+.checks .fixed b { color: var(--yellow); }
+
+/* The check: six big ticks on the night ground. */
+.check { padding-block: 80px 96px; }
+.check h2, .fixes h2 { font-size: min(2.75rem, 11vw); margin-bottom: 40px; }
+.ticks { display: grid; gap: 36px; }
+.ticks li { display: grid; grid-template-columns: 52px minmax(0, 1fr); column-gap: 18px; row-gap: 8px; align-items: center; }
+.tk { width: 52px; height: 52px; grid-row: 1 / span 2; align-self: start; fill: none; stroke: var(--green); stroke-width: 5; stroke-linecap: square; }
+.ticks li:last-child .tk { stroke: var(--yellow); }
+.ticks h3 { font-size: min(4rem, 8vw); }
+.ticks p { color: var(--ink-2); max-width: 40ch; }
+@media (min-width: 900px) {
+  .check { padding-block: 140px; }
+  .check h2, .fixes h2 { font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 64px; }
+  .ticks { grid-template-columns: 1fr 1fr; gap: 64px 5vw; }
+  .ticks li { grid-template-columns: 80px minmax(0, 1fr); column-gap: 24px; }
+  .tk { width: 80px; height: 80px; }
+  .ticks p { font-size: 1.125rem; }
+}
+
+/* Fixes and small updates. */
+.fixes { background: var(--bone); color: var(--night); padding-block: 80px 96px; --focus: var(--night); }
+.fixes-in { display: grid; gap: 20px; }
+.fixes h2 { margin-bottom: 8px; }
+.fixes p { font-size: 1.375rem; line-height: 1.35; max-width: 32ch; }
+.fixes .opt { color: var(--ink-dark-2); font-size: 1.0625rem; max-width: 40ch; }
+@media (min-width: 900px) { .fixes { padding-block: 140px; } .fixes-in { grid-template-columns: 1fr 1fr; column-gap: 6vw; } .fixes h2 { grid-column: 1 / -1; } .fixes p { font-size: 2rem; line-height: 1.2; } .fixes .opt { font-size: 1.125rem; align-self: end; } }
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* The report, 10 s: the email lands, the PDF slides out, the checks tick down the list, the fixed one is stamped. */
+  .mail-card { animation: land-mail 10s var(--ease-expo) infinite both; }
+  .pdf { animation: pdf-out 10s var(--ease-expo) infinite both; }
+  .checks b { animation: tick 10s var(--ease-out) infinite both; }
+  .checks li:nth-child(2) b { animation-delay: 300ms; } .checks li:nth-child(3) b { animation-delay: 600ms; }
+  .checks li:nth-child(4) b { animation-delay: 900ms; } .checks li:nth-child(5) b { animation-delay: 1200ms; } .checks li:nth-child(6) b { animation-name: stamp; animation-delay: 1500ms; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .tk { animation: tick-in linear both; animation-timeline: view(); animation-range: entry 20% entry 100%; }
+    .ticks h3 { animation: lift linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+  }
+}
+@supports not (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .once .reveal.play .tk { animation: tick-in 700ms var(--ease-out) both; }
+    .once .reveal.play h3 { animation: lift 800ms var(--ease-expo) both; }
+  }
+}
+@keyframes land-mail { 0% { opacity: 0; transform: translateY(-30%) rotate(-6deg); } 8%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(6%); } }
+@keyframes pdf-out { 0%, 12% { opacity: 0; transform: translate(-30%, -24%) scale(0.86); } 22%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes tick { 0%, 26% { opacity: 0; transform: scale(1.6); } 30%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes stamp { 0%, 26% { opacity: 0; transform: scale(2.4) rotate(-12deg); } 30% { opacity: 1; transform: scale(0.9) rotate(3deg); } 33%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes tick-in { from { scale: 0.3; rotate: -45deg; opacity: 0; } }
